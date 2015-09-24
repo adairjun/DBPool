@@ -1,0 +1,11 @@
+<Config>
+
+	<MysqlConnection> 
+		<IP>127.0.0.1</IP> 
+		<Port>3306</Port> 
+		<User>hqy</User>
+		<Passwd>hqy</Passwd>
+		<DBName>testdb</DBName>
+	</MysqlConnection> 
+
+</Config>

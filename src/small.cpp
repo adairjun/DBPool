@@ -34,7 +34,8 @@ void handler(Pool* p_mypool, const char* sql)
 }
 
 
-int main(int argc,  char* argv[]){
+int main(int argc,  char* argv[])
+{
 
 	// mysql的最大连接数max_connections是151
 	Pool mypool;

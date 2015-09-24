@@ -8,11 +8,14 @@
 
 #include <string.h>
 #include <mutex>
-#include "some.h"
+#include <map>
+#include "mysql_obj.h"
 
 using std::string;
 using std::vector;
 using std::mutex;
+using std::map;
+using std::make_pair;
 
 // 其实Connection才是连接mysql的,Connection相当于wiwo的MysqlObject,这个pool只做了一件事情,那就是创建poolsize个的连接,Mysql的最大连接数目是151,销毁pool就是,
 class Pool{
@@ -38,11 +41,11 @@ class Pool{
 	mutex m_mutex;
 	mutex initmutex;
 
- private:
-	some* vec;     // need an instance to init
+ public:
+	map<MysqlObj*, bool> mysql_map;
 
 	// 之所以要把这里设置成为public,是因为使用Pool::host_的方式来访问
- public:
+ private:
 	string host_ ;
 	string user_ ;
 	string password_ ;

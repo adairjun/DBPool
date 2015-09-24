@@ -53,7 +53,6 @@ Pool::Pool()
 	}
 	// 构造函数的作用就是根据poolSize的大小来构造多个映射,some其实就是起到了map的作用
 	// 每个映射的连接都是同样的host,user,pass,dbname
-	vec = new some[poolSize_];
 
 	for(int i=0; i<poolSize_; ++i){
 //		boost::shared_ptr<Connection> conn =  
@@ -66,21 +65,18 @@ Pool::Pool()
 			cout << "xPool: new Connection Operation failed" << endl;
 			exit(-1);
 		}
-		vec[i].first = conn;
-		vec[i].second = false;
+		mysql_map.insert(make_pair(conn, false));
 	}
 
 }
 
 Pool::~Pool(){
 	// 析构函数就是顺序销毁Connection指针
-	// 最后销毁vec
-	// 如果把some改成map,把Connection* 该成boost::shared_ptr,可以简化操作
 	
-	for(int i=0;i<poolSize_;i++){
-		delete vec[i].first;
+	for(auto it = mysql_map.begin(); it != mysql_map.end(); ++it)
+	{
+		delete it->first;
 	}
-	delete[] vec;
 	//mysql_library_end();
 }
 
@@ -94,16 +90,16 @@ MysqlObj* Pool::getConnection(){
 	{
 		Pool::lock();
 		bool flag = false;
-		for(int i=0;i<poolSize_;i++)
+		for(auto it = mysql_map.begin(); it != mysql_map.end(); ++it)
 		{
-			if(vec[i].second == false)
+			if(it->second == false)
 			{
-				vec[i].second = true;
-				ret = vec[i].first;
+				it->second = true;
+				ret = it->first;
 				flag = true;
-				break;
+				break;	
 			}
-		}
+		}	
 		if(flag == true)
 		{
 			Pool::unlock();
@@ -122,9 +118,11 @@ MysqlObj* Pool::getConnection(){
 
 int Pool::releaseConnection(MysqlObj* conn){
 	lock();
-	for(int i=0;i<poolSize_;i++){
-		if(vec[i].first == conn ){
-			vec[i].second = false;
+	for(auto it = mysql_map.begin(); it != mysql_map.end(); ++it)
+	{
+		if(it->first == conn)
+		{
+			it->second = false;
 			break;
 		}
 	}

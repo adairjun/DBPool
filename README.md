@@ -13,3 +13,5 @@ make sure there is mysql-devel, mysql-libs, boost in your system
 
 Makefile的quiet_cxx有点问题
 使用gtest来测试模块
+
+要加入redis数据库连接池,需要使用hiredis,需要在github上下载

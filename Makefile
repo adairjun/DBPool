@@ -8,7 +8,7 @@ LIBRARY := libdbpool.a
 SHARED := libdbpool.so
 
 INCLUDE := -I/usr/local/include
-LIBS := -L/usr/local/lib -L/usr/lib64/mysql -lpthread -lmysqlclient -lgtest
+LIBS := -L/usr/local/lib -L/usr/lib64/mysql -lpthread -lmysqlclient -lgtest -lhiredis
 
 CFLAGS := 
 CPPFLAGS := -std=c++0x -O2 -g -fPIC

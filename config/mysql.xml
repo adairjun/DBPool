@@ -6,7 +6,7 @@
 		<User>hqy</User>
 		<Passwd>hqy</Passwd>
 		<DBName>testdb</DBName>
-		<!--  Mysql的最大连接数为151 -->
+		<!--  Mysql的最大连接数为151,这里建立150个连接 -->
 		<max_connections>150</max_connections>
 	</MysqlConnection> 
 

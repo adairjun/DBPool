@@ -4,19 +4,19 @@ CC := gcc
 CXX := g++
 AR := ar
 
+LIBRARY := libdbpool.a
+SHARED := libdbpool.so
 
 INCLUDE := -I/usr/local/include
 LIBS := -L/usr/local/lib -L/usr/lib64/mysql -lpthread -lmysqlclient -lgtest
 
 CFLAGS := 
 CPPFLAGS := -std=c++0x -O2 -g -fPIC
-SHARED_LDFLAGS := -shared -fPIC
+SHARED_LDFLAGS := -shared -fPIC -Wl,-soname,${SHARED}
 
 LIBCFILES := $(wildcard ./util/*.c)
 LIBCPPFILES := $(wildcard ./util/*.cc ./util/*.cpp)
 LIBOBJECTS := $(addsuffix .o, $(basename $(LIBCFILES)) $(basename $(LIBCPPFILES)))
-LIBRARY := libdbpool.a
-SHARED := libdbpool.so
 
 CFILES := $(wildcard ./gtest/*.c)
 CPPFILES := $(wildcard ./gtest/*.cc ./gtest/*.cpp)

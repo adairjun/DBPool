@@ -8,7 +8,8 @@ LIBRARY := libdbpool.a
 SHARED := libdbpool.so
 
 INCLUDE := -I/usr/local/include
-LIBS := -L/usr/local/lib -L/usr/lib64/mysql -lpthread -lmysqlclient -lgtest -lhiredis
+# -lgtest must before -lpthread
+LIBS := -L/usr/local/lib -L/usr/lib64/mysql -lgtest -lpthread -lmysqlclient -lhiredis
 
 CFLAGS := 
 CPPFLAGS := -std=c++0x -O2 -g -fPIC
@@ -45,7 +46,7 @@ $(LIBRARY): $(LIBOBJECTS)
 	$(AR) crv $@ $(LIBOBJECTS)
 
 $(SHARED):
-	$(QUIET_CXX)$(CXX) $(SHARED_LDFLAGS) -o $@ $(LIBOBJECTS) 
+	$(QUIET_CXX)$(CXX) $(SHARED_LDFLAGS) -o $@ $(LIBOBJECTS) $(LIBS)
 
 $(TARGETS): $(OBJECTS)
 	$(QUIET_CXX)$(CXX) -o $@ $(addsuffix .o, $@) $(LIBS) -L. -ldbpool

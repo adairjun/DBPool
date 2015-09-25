@@ -9,6 +9,11 @@
 			"Passwd": "hqy",
 			"DBName": "testdb",
 			"max_connections": 150
+		},
+		"RedisConnection":
+		{
+			"IP": "127.0.0.1",
+			"Port": 6379
 		}
 	}
 }

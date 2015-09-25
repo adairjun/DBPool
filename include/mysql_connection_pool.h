@@ -49,7 +49,7 @@ class Pool
 	string dbname_;
 	unsigned port_;
 	
-	//Mysql的最大连接数为151,从mysql.xml或者mysql.json当中读取max_connections
+	//Mysql的最大连接数为151,从database.xml或者database.json当中读取max_connections
 	int poolSize_;
 
 	//错误信息

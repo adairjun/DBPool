@@ -10,4 +10,9 @@
 		<max_connections>150</max_connections>
 	</MysqlConnection> 
 
+	<RedisConnection>
+		<IP>127.0.0.1</IP>
+		<Port>6379</Port>
+	</RedisConnection>
+
 </Config>

@@ -18,7 +18,8 @@ using std::map;
 using std::make_pair;
 
 // 其实Connection才是连接mysql的,Connection相当于wiwo的MysqlObject,这个pool只做了一件事情,那就是创建poolsize个的连接,Mysql的最大连接数目是151,销毁pool就是,
-class Pool{
+class Pool
+{
  public:
 	// 批量创建连接在构造函数当中进行
 	Pool();
@@ -31,6 +32,9 @@ class Pool{
 	
 	// 释放特定的连接就是把数组当中的bool值置为false
 	int releaseConnection(MysqlObj*);
+
+	//
+	string ErrorMessage() const;
 	void lock();
 	void unlock();
 
@@ -52,8 +56,11 @@ class Pool{
 	string dbname_;
 	unsigned port_;
 	
-	//Mysql的最大连接数为151,这里建立150个连接
-	static const int poolSize_ = 150;
+	//Mysql的最大连接数为151,从mysql.xml当中读取max_connections
+	int poolSize_;
+
+	//错误信息
+	string m_strErrorMessage;  
 
 };
 

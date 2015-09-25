@@ -6,6 +6,8 @@
 		<User>hqy</User>
 		<Passwd>hqy</Passwd>
 		<DBName>testdb</DBName>
+		<!--  Mysql的最大连接数为151 -->
+		<max_connections>150</max_connections>
 	</MysqlConnection> 
 
 </Config>

@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
+#include <boost/property_tree/json_parser.hpp>
 #include <boost/typeof/typeof.hpp>
 #include <boost/foreach.hpp>
 #include <boost/lexical_cast.hpp>
@@ -33,9 +34,13 @@ void Pool::unlocki()
 Pool::Pool()
 {
 	// 从配置文件mysql.xml当中读入mysql的ip, 用户, 密码, 数据库名称,	
-	const char* xml_path = "../config/mysql.xml";	
 	boost::property_tree::ptree pt;	
+	const char* xml_path = "../config/mysql.xml";	
 	boost::property_tree::read_xml(xml_path, pt);
+	
+	//这段注释的代码是读取json配置文件的
+//	const char* json_path = "../config/mysql.json";
+//	boost::property_tree::read_json(json_path, pt);
 
 	BOOST_AUTO(child, pt.get_child("Config.MysqlConnection"));
 	for(BOOST_AUTO(pos, child.begin()); pos!= child.end(); ++pos)

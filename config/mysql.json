@@ -1,0 +1,14 @@
+{
+	"Config":
+	{
+		"MysqlConnection":
+		{
+			"IP": "127.0.0.1",
+			"Port": 3306,
+			"User": "hqy",
+			"Passwd": "hqy",
+			"DBName": "testdb",
+			"max_connections": 150
+		}
+	}
+}

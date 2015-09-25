@@ -1,11 +1,3 @@
-
-/* testsql.c
- ** An example to use MYSQL C API
- ** Copyright 2004 Coon Xu.
- ** Author: Coon Xu
- ** Date: 05 Nov 2004
- */
-
 #include <string.h>
 #include <mutex>
 #include <map>
@@ -17,23 +9,23 @@ using std::mutex;
 using std::map;
 using std::make_pair;
 
-// 其实Connection才是连接mysql的,Connection相当于wiwo的MysqlObject,这个pool只做了一件事情,那就是创建poolsize个的连接,Mysql的最大连接数目是151,销毁pool就是,
+// 这个pool只做了一件事情,那就是创建poolsize个的连接,Mysql的最大连接数目是151
 class Pool
 {
  public:
 	// 批量创建连接在构造函数当中进行
 	Pool();
-	// 析构函数就是顺序销毁Connection指针
-	// 最后销毁vec
+	// 析构函数就是顺序销毁MysqlObj指针
+	// 最后清空map
 	virtual ~Pool();
 		
-	// 先调用构造函数批量创建链接,构造函数会产生一个Pool的指针,然后从数组当中选取一个连接,造成了极大的浪费
+	// 从map当中选取一个连接
 	MysqlObj* getConnection();
 	
-	// 释放特定的连接就是把数组当中的bool值置为false
+	// 释放特定的连接就是把map当中的bool值置为false
 	int releaseConnection(MysqlObj*);
 
-	//
+	// 构造函数创建poolsize个连接错误时候用来打印错误信息
 	string ErrorMessage() const;
 	void lock();
 	void unlock();
@@ -46,9 +38,10 @@ class Pool
 	mutex initmutex;
 
  public:
+	// 之所以要把这里设置成为public,是因为使用insert的方式来插入连接和是否可用的pair
+	// bool值为false的时候说明mysql连接被占用
 	map<MysqlObj*, bool> mysql_map;
 
-	// 之所以要把这里设置成为public,是因为使用Pool::host_的方式来访问
  private:
 	string host_ ;
 	string user_ ;
@@ -56,7 +49,7 @@ class Pool
 	string dbname_;
 	unsigned port_;
 	
-	//Mysql的最大连接数为151,从mysql.xml当中读取max_connections
+	//Mysql的最大连接数为151,从mysql.xml或者mysql.json当中读取max_connections
 	int poolSize_;
 
 	//错误信息

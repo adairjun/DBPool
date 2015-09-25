@@ -10,7 +10,7 @@ using std::thread;
 
 void handler(Pool* p_mypool, const char* sql) 
 {
-	// 因为这里是用Connection对象来保存一个mysql连接,pool连接池就是一口气创建最大的连接数目,当需要mysql连接的时候就从pool当中取出来
+	// 从数据库连接池当中取出一个可用的连接
 	MysqlObj* conn = p_mypool->getConnection();
 
 	if(!conn){
@@ -37,12 +37,10 @@ void handler(Pool* p_mypool, const char* sql)
 int main(int argc,  char* argv[])
 {
 
-	// mysql的最大连接数max_connections是151
 	Pool mypool;
 	
 	// 设置要启动的线程数量
 	const int THREAD_COUNT = 4;
-	// 构造线程数组可以使用vector<thread>
 	vector<thread> thread_array;
 	for(long i=0;i<THREAD_COUNT;++i)
 	{
@@ -51,23 +49,11 @@ int main(int argc,  char* argv[])
 		//sleep(1);
 	}
 
+	// 每个线程启动join
 	for(int i=0;i<THREAD_COUNT;++i)
 	{
 		thread_array[i].join();
 	}
 
-	MysqlObj* conn = mypool.getConnection();
-	QueryResult queryResult; 
-	conn->ExecuteSql("INSERT INTO student VALUES(3,\"zhuying\");", queryResult);
-	mypool.releaseConnection(conn);
-	for(int i=0;i<queryResult.getRowCount();i++)
-	{
-		for(int j=0;j<queryResult.getColumnCount();j++)
-		{
-			cout << queryResult.getElement(i,j) << " ";
-		}
-		cout << endl;
-	}
-		
 	return 0;
 }

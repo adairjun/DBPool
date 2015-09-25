@@ -7,7 +7,9 @@
 using std::vector;
 using std::string;
 
-class QueryResult{
+// QueryResult是用来存放Select的结果集的
+class QueryResult
+{
 public:
 	//Row是横向的,行的意思
 	int getRowCount(){return string_table.size();}

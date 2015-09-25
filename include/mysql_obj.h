@@ -14,6 +14,7 @@ class MysqlObj
 
 	string ErrorMessage();
 
+	// 根据成员变量来建立MYSQL连接
 	bool Connect();
 	bool Reconnect();
 	void Close();

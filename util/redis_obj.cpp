@@ -42,8 +42,13 @@ void RedisObj::Close()
 	}
 }
 
-int RedisObj::ExecuteCmd(const char* pCmd)
+int RedisObj::ExecuteCmd(IN const char* pCmd)
 {
+	r_pResult = (redisReply*)redisCommand(r_pRedis, pCmd);	
+	if( r_pResult == NULL)
+	{
+		return -1;
+	}	
 	return 0;
 }
 
@@ -51,6 +56,32 @@ int RedisObj::ExecuteCmd(const char* pCmd)
 redisContext* RedisObj::get() const
 {
 	return r_pRedis;
+}
+
+
+int RedisObj::IntegerResult(OUT long long &result)
+{
+	return IntegerResult(result, r_pResult);
+}
+
+int RedisObj::StringResult(OUT string &result)
+{
+	return StringResult(result, r_pResult);
+}
+
+int RedisObj::StatusResult(OUT string &result)
+{
+	return StatusResult(result, r_pResult);
+}
+
+int RedisObj::StringArrayResult(OUT vector<string> &result)
+{
+	return StringArrayResult(result, r_pResult);
+}
+
+int RedisObj::ArrayResult(OUT vector<redisReply*> &result)
+{
+	return ArrayResult(result, r_pResult);
 }
 
 // 从redis当中获取返回值

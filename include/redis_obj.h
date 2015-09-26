@@ -31,17 +31,26 @@ class RedisObj
 	//返回Redis的指针
 	redisContext* get() const;
 
- public:
+ public: 
+	// 从redis当中获取返回值
+	int IntegerResult(OUT long long &result);
+	int StringResult(OUT string &result);
+	int StatusResult(OUT string &result);
+	int StringArrayResult(OUT vector<string> &result);
+	int ArrayResult(OUT vector<redisReply*> &result);
+	
+ private:
 	// 从redis当中获取返回值
 	int IntegerResult(OUT long long &result, IN redisReply* reply);
-	int StringResult(OUT std::string &result, IN redisReply* reply);
-	int StatusResult(OUT std::string &result, IN redisReply* reply);
-	int StringArrayResult(OUT std::vector<std::string> &result, IN redisReply* reply);
-	int ArrayResult(OUT std::vector<redisReply*> &result, IN redisReply* reply);
+	int StringResult(OUT string &result, IN redisReply* reply);
+	int StatusResult(OUT string &result, IN redisReply* reply);
+	int StringArrayResult(OUT vector<std::string> &result, IN redisReply* reply);
+	int ArrayResult(OUT vector<redisReply*> &result, IN redisReply* reply);
 
  private:
 	// 代表了一条数据库连接
 	redisContext* r_pRedis;
+	redisReply* r_pResult;
  private:
 	// 连接必备的参数:IP地址,用户,密码,数据库名称,端口号
 	string r_strHost;

@@ -22,4 +22,5 @@ then
 	apt-get -y install libmysqlclient-dev
 	apt-get -y install libmysqld-dev
 	apt-get -y install libboost-dev
+	apt-get -y install redis-server
 fi

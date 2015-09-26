@@ -13,6 +13,7 @@
 	<RedisConnection>
 		<IP>127.0.0.1</IP>
 		<Port>6379</Port>
+		<Passwd></Passwd>
 	</RedisConnection>
 
 </Config>

@@ -9,7 +9,7 @@ using std::cout;
 using std::endl;
 using std::thread;
 
-void handler(MysqlPool* p_mypool, const char* sql) 
+const char* handler(MysqlPool* p_mypool, const char* sql) 
 {
 	// 从数据库连接池当中取出一个可用的连接
 	MysqlObj* conn = p_mypool->getConnection();
@@ -32,29 +32,18 @@ void handler(MysqlPool* p_mypool, const char* sql)
 		}
 		cout << endl;
 	}
+	return "hello";
 }
 
-
-int main(int argc,  char* argv[])
+TEST(handlerTest, Test1)
 {
-
 	MysqlPool mypool;
 	
-	// 设置要启动的线程数量
-	const int THREAD_COUNT = 4;
-	vector<thread> thread_array;
-	for(long i=0;i<THREAD_COUNT;++i)
-	{
-		// 用一个线程启动handler,然后把这个线程放入线程数组当中去
-		thread_array.push_back(thread(handler, &mypool, "select * from student"));
-		//sleep(1);
-	}
+	EXPECT_STREQ("hello", handler(&mypool, "select * from student"));
+}
 
-	// 每个线程启动join
-	for(int i=0;i<THREAD_COUNT;++i)
-	{
-		thread_array[i].join();
-	}
-
-	return 0;
+int main(int argc, char** argv)
+{
+	testing::InitGoogleTest(&argc, argv);
+	return RUN_ALL_TESTS();
 }

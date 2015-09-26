@@ -6,13 +6,16 @@
 #include <boost/typeof/typeof.hpp>
 #include <boost/foreach.hpp>
 #include <boost/lexical_cast.hpp>
+#include <gtest/gtest.h>
 
 using namespace std;
 
 using std::cout;
 using std::endl;
 
-int main(int argc, char** argv)
+void hello() { }
+
+TEST(helloTest, Test1)
 {
 	// 从配置文件database.xml当中读入mysql的ip, 用户, 密码, 数据库名称,	
 	boost::property_tree::ptree pt;	
@@ -38,13 +41,17 @@ int main(int argc, char** argv)
 	}
 
 	RedisObj useRed(host_, password_, port_);	
-	useRed.Connect();
-	useRed.ExecuteCmd("set test hello");
-	useRed.ExecuteCmd("get test");
+	EXPECT_TRUE(useRed.Connect());
+	EXPECT_EQ(0,useRed.ExecuteCmd("set test hello"));
+	EXPECT_EQ(0,useRed.ExecuteCmd("get test"));
 	string result;
-	useRed.StringResult(result);
+	EXPECT_EQ(1,useRed.StringResult(result));
 	useRed.Close();		
 	cout << result << endl;
+}
 
-	return 0;
+int main(int argc, char** argv)
+{
+	testing::InitGoogleTest(&argc, argv);
+	return RUN_ALL_TESTS();
 }

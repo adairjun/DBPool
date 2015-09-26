@@ -70,7 +70,6 @@ MysqlPool::MysqlPool()
 			mysql_map.insert(make_pair(conn, 1));
 		else
 		{
-			BUG_FILE();
 			m_strErrorMessage = conn->ErrorMessage();
 			delete conn;
 		}

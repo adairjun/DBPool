@@ -4,6 +4,7 @@
 #include <hiredis/hiredis.h>
 #include <string>
 #include <vector>
+#include "debug.h"
 
 using std::string;
 using std::vector;

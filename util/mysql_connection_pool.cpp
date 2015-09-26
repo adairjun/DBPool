@@ -70,6 +70,7 @@ MysqlPool::MysqlPool()
 			mysql_map.insert(make_pair(conn, 1));
 		else
 		{
+			BUG_FILE();
 			m_strErrorMessage = conn->ErrorMessage();
 			delete conn;
 		}
@@ -98,7 +99,6 @@ MysqlObj* MysqlPool::getConnection()
 	{
 		//lock();
 		bool flag = false;
-		cout << "00000000000000" << endl;
 		for(auto it = mysql_map.begin(); it != mysql_map.end(); ++it)
 		{
 			if(it->second == true)
@@ -106,14 +106,12 @@ MysqlObj* MysqlPool::getConnection()
 				it->second = false;
 				ret = it->first;
 				flag = true;
-				cout << "2222222222" << endl;
 				break;	
 			}
 		}	
 		if(flag == true)
 		{
 			//unlock();
-			cout << "333333333333" << endl;
 			break;
 		}
 		else

@@ -34,6 +34,7 @@ bool MysqlObj::Connect()
 	m_pMysql = mysql_init(NULL);
 	if ( NULL == m_pMysql )
 	{
+		BUG_FILE();
 		return false;
 	}
 	
@@ -47,6 +48,7 @@ bool MysqlObj::Connect()
 
     if ( NULL == mysql_real_connect(m_pMysql, m_strHost.c_str(), m_strUser.c_str(), m_strPassword.c_str(), m_strDBname.c_str(), m_iPort, NULL, 0) ) 
 	{
+		BUG_FILE();
         ErrorMessage();
         Close();
 		return false;
@@ -61,6 +63,7 @@ bool MysqlObj::Reconnect()
 	m_pMysql = mysql_init(NULL);
 	if ( NULL == m_pMysql ) 
 	{
+		BUG_FILE();
 		return false;
 	}
 	if ( NULL == mysql_real_connect(m_pMysql, 
@@ -68,7 +71,9 @@ bool MysqlObj::Reconnect()
 				m_strUser.size()?m_strUser.c_str():NULL, 
 				m_strPassword.size()?m_strPassword.c_str():NULL, 
 				m_strDBname.size()?m_strDBname.c_str():NULL,
-				m_iPort, NULL, CLIENT_MULTI_STATEMENTS) ) {
+				m_iPort, NULL, CLIENT_MULTI_STATEMENTS) ) 
+	{
+		BUG_FILE();
         ErrorMessage();
 		Close();
 		return false;
@@ -91,6 +96,7 @@ int MysqlObj::SelectDB(const char *pDatabase)
     int iRet = mysql_select_db(m_pMysql, pDatabase);
     if (0 != iRet) 
 	{
+		BUG_FILE();
         ErrorMessage();
     }
     return iRet;
@@ -103,6 +109,7 @@ int MysqlObj::ExecuteSql(const char *pSql, QueryResult& vecResult)
 
     if ( 0 != mysql_real_query(m_pMysql, pSql, iSqlSize) ) 
 	{
+		BUG_FILE();
         ErrorMessage();
         return -1;
     }
@@ -121,6 +128,7 @@ int MysqlObj::ExecuteSql(const char *pSql, QueryResult& vecResult)
         MYSQL_RES *pRes = mysql_store_result(m_pMysql);
         if ( NULL == pRes ) 
 		{
+			BUG_FILE();
             ErrorMessage();
             return -1;
         }
@@ -136,6 +144,7 @@ int MysqlObj::ExecuteSql(const char *pSql, QueryResult& vecResult)
             pRow = mysql_fetch_row(pRes);
             if ( !pRow ) 
 			{
+				BUG_FILE();
                 ErrorMessage();
                 mysql_free_result(pRes);
                 return -1;
@@ -143,6 +152,7 @@ int MysqlObj::ExecuteSql(const char *pSql, QueryResult& vecResult)
             unsigned long *pLens = mysql_fetch_lengths(pRes); 
             if ( NULL == pLens ) 
 			{
+				BUG_FILE();
                 ErrorMessage();
                 mysql_free_result(pRes);
                 return -1;

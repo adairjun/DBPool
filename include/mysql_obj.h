@@ -3,6 +3,7 @@
 
 #include <mysql/mysql.h>
 #include "QueryResult.h"
+#include "debug.h"
 
 class MysqlObj
 {

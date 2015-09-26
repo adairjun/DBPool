@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <thread>
+#include <gtest/gtest.h>
 
 using std::cout;
 using std::endl;

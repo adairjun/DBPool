@@ -112,7 +112,7 @@ int MysqlObj::ExecuteSql(const char *pSql, QueryResult& vecResult)
 
     if ( 0 == (iFieldCount = mysql_field_count(m_pMysql)) ) 
 	{
-        // 当前结果集无数据，应为写Sql，更新affected_rows, insert_id后转至下一个
+        // 当前结果集无数据，说明不是SELECT的Sql
         m_iAffectedRows = mysql_affected_rows(m_pMysql);
         m_iInsertId = mysql_insert_id(m_pMysql);
     }	
@@ -126,7 +126,7 @@ int MysqlObj::ExecuteSql(const char *pSql, QueryResult& vecResult)
             return -1;
         }
 
-        // 获取行数，同时为保证affected_rows，与mysql_num_rows一致，同时进行更新赋值
+        // 获取行数
         iRowCount = mysql_num_rows(pRes);
         m_iAffectedRows = iRowCount;
         // 当前为Select，修正insert_id为0

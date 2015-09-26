@@ -42,6 +42,12 @@ void RedisObj::Close()
 	}
 }
 
+int RedisObj::ExecuteCmd(const char* pCmd)
+{
+	return 0;
+}
+
+
 redisContext* RedisObj::get() const
 {
 	return r_pRedis;

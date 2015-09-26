@@ -22,7 +22,7 @@ class RedisObj
 
 	string ErrorMessage();
 
-	// 根据成员变量来建立MYSQL连接
+	// 根据成员变量来建立Redis连接
 	bool Connect();
 	void Close();
 	

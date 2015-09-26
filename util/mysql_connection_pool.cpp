@@ -12,25 +12,25 @@
 using std::cout;
 using std::endl;
 
-void Pool::lock(){
+void MysqlPool::lock(){
 	m_mutex.lock();
 }
 
-void Pool::unlock(){
+void MysqlPool::unlock(){
 	m_mutex.unlock();
 }
 
-void Pool::locki()
+void MysqlPool::locki()
 {
 	initmutex.lock();
 }
 
-void Pool::unlocki()
+void MysqlPool::unlocki()
 {
 	initmutex.unlock();
 }	
 
-Pool::Pool()
+MysqlPool::MysqlPool()
 {
 	// 从配置文件database.xml当中读入mysql的ip, 用户, 密码, 数据库名称,	
 	boost::property_tree::ptree pt;	
@@ -67,7 +67,7 @@ Pool::Pool()
 		MysqlObj* conn = new MysqlObj(host_, user_, password_, dbname_, port_);
 		conn->Connect();
 		if(conn->Connect())
-			mysql_map.insert(make_pair(conn, true));
+			mysql_map.insert(make_pair(conn, 1));
 		else
 		{
 			m_strErrorMessage = conn->ErrorMessage();
@@ -77,7 +77,7 @@ Pool::Pool()
 
 }
 
-Pool::~Pool()
+MysqlPool::~MysqlPool()
 {
 	// 析构函数就是顺序销毁MysqlObj指针
 	
@@ -90,14 +90,15 @@ Pool::~Pool()
 
 
 // 从map当中得到一个连接
-MysqlObj* Pool::getConnection()
+MysqlObj* MysqlPool::getConnection()
 {
 	//get connection operation
 	MysqlObj* ret = NULL;
 	while(true)
 	{
-		Pool::lock();
+		//lock();
 		bool flag = false;
+		cout << "00000000000000" << endl;
 		for(auto it = mysql_map.begin(); it != mysql_map.end(); ++it)
 		{
 			if(it->second == true)
@@ -105,18 +106,19 @@ MysqlObj* Pool::getConnection()
 				it->second = false;
 				ret = it->first;
 				flag = true;
+				cout << "2222222222" << endl;
 				break;	
 			}
 		}	
 		if(flag == true)
 		{
-			Pool::unlock();
+			//unlock();
+			cout << "333333333333" << endl;
 			break;
 		}
 		else
 		{
-			//cout << "wait" << endl;
-			Pool::unlock();
+			//unlock();
 			usleep(1000);
 			continue;
 		}
@@ -125,9 +127,9 @@ MysqlObj* Pool::getConnection()
 }
 
 // 释放一个连接还给线程池
-int Pool::releaseConnection(MysqlObj* conn)
+int MysqlPool::releaseConnection(MysqlObj* conn)
 {
-	lock();
+	//lock();
 	for(auto it = mysql_map.begin(); it != mysql_map.end(); ++it)
 	{
 		if(it->first == conn)
@@ -136,11 +138,11 @@ int Pool::releaseConnection(MysqlObj* conn)
 			break;
 		}
 	}
-	unlock();
+	//unlock();
 	return 1;
 }
 
-string Pool::ErrorMessage() const
+string MysqlPool::ErrorMessage() const
 {
 	return m_strErrorMessage; 
 }

@@ -10,14 +10,14 @@ using std::map;
 using std::make_pair;
 
 // 这个pool只做了一件事情,那就是创建poolsize个的连接,Mysql的最大连接数目是151
-class Pool
+class MysqlPool
 {
  public:
 	// 批量创建连接在构造函数当中进行
-	Pool();
+	MysqlPool();
 	// 析构函数就是顺序销毁MysqlObj指针
 	// 最后清空map
-	virtual ~Pool();
+	virtual ~MysqlPool();
 		
 	// 从map当中选取一个连接
 	MysqlObj* getConnection();

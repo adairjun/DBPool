@@ -8,7 +8,7 @@ using std::cout;
 using std::endl;
 using std::thread;
 
-void handler(Pool* p_mypool, const char* sql) 
+void handler(MysqlPool* p_mypool, const char* sql) 
 {
 	// 从数据库连接池当中取出一个可用的连接
 	MysqlObj* conn = p_mypool->getConnection();
@@ -37,7 +37,7 @@ void handler(Pool* p_mypool, const char* sql)
 int main(int argc,  char* argv[])
 {
 
-	Pool mypool;
+	MysqlPool mypool;
 	
 	// 设置要启动的线程数量
 	const int THREAD_COUNT = 4;

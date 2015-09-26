@@ -6,6 +6,7 @@
 using std::string;
 using std::vector;
 using std::mutex;
+using std::unique_lock;
 using std::map;
 using std::make_pair;
 
@@ -29,7 +30,7 @@ class MysqlPool
 	string ErrorMessage() const;
 	
  private:
-	mutex m_mutex;
+	mutex resource_mutex;
 
  public:
 	// 之所以要把这里设置成为public,是因为使用insert的方式来插入连接和是否可用的pair

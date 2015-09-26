@@ -78,10 +78,10 @@ MysqlObj* MysqlPool::getConnection()
 	MysqlObj* ret = NULL;
 	while(true)
 	{
-		//lock();
 		bool flag = false;
 		for(auto it = mysql_map.begin(); it != mysql_map.end(); ++it)
 		{
+			unique_lock<mutex> lk(resource_mutex);
 			if(it->second == true)
 			{
 				it->second = false;
@@ -92,12 +92,10 @@ MysqlObj* MysqlPool::getConnection()
 		}	
 		if(flag == true)
 		{
-			//unlock();
 			break;
 		}
 		else
 		{
-			//unlock();
 			usleep(1000);
 			continue;
 		}
@@ -108,16 +106,15 @@ MysqlObj* MysqlPool::getConnection()
 // 释放一个连接还给线程池
 int MysqlPool::releaseConnection(MysqlObj* conn)
 {
-	//lock();
 	for(auto it = mysql_map.begin(); it != mysql_map.end(); ++it)
 	{
+		unique_lock<mutex> lk(resource_mutex);
 		if(it->first == conn)
 		{
 			it->second = true;
 			break;
 		}
 	}
-	//unlock();
 	return 1;
 }
 

@@ -5,6 +5,10 @@
 #include "QueryResult.h"
 #include "debug.h"
 
+// 设置一个标志,函数参数列表当中带有OUT的就是输出引用,带有IN的就是输入参数
+#define OUT
+#define IN
+
 class MysqlObj
 {
  public:
@@ -21,7 +25,7 @@ class MysqlObj
 	void Close();
 	
 	int SelectDB(const char* pDatabase);
-	int ExecuteSql(const char* pSql, QueryResult& vecResult);
+	int ExecuteSql(IN const char* pSql, OUT QueryResult& vecResult);
 
 	//执行SQL受到影响的行数
 	unsigned long long AffectedRows() const;

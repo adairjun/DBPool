@@ -97,7 +97,7 @@ int MysqlObj::SelectDB(const char *pDatabase)
     return iRet;
 }
 
-int MysqlObj::ExecuteSql(const char *pSql, QueryResult& vecResult) 
+int MysqlObj::ExecuteSql(IN const char *pSql, OUT QueryResult& vecResult) 
 {
     assert(m_pMysql);
 	unsigned int iSqlSize = (unsigned int)strlen(pSql);

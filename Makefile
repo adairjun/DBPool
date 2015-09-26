@@ -8,7 +8,7 @@ LIBRARY := libdbpool.a
 SHARED := libdbpool.so
 
 INCLUDE := -I/usr/local/include
-# -lgtest must before -lpthread
+# -lgtest 一定要放在 -lpthread 前面
 LIBS := -L/usr/local/lib -L/usr/lib64/mysql -lgtest -lpthread -lmysqlclient -lhiredis
 
 CFLAGS := 
@@ -24,6 +24,7 @@ CPPFILES := $(wildcard ./gtest/*.cc ./gtest/*.cpp)
 OBJECTS := $(addsuffix .o, $(basename $(CFILES)) $(basename $(CPPFILES)))
 TARGETS := $(basename $(OBJECTS))
 
+# 安静模式的核心代码
 ifeq ("$(origin V)", "command line")
    BUILD_VERBOSE = $(V)
 endif
@@ -51,14 +52,24 @@ $(SHARED):
 $(TARGETS): $(OBJECTS)
 	$(QUIET_CXX)$(CXX) -o $@ $(addsuffix .o, $@) $(LIBS) -L. -ldbpool
 
-%.o:./util/%.c ./gtest/%.c
-	$(QUIET_CC)$(CC) $(CFLAGS) -c $<
+#下面的Makefile其实只是为了使用安静模式而已,如果将下面的代码去掉的话也能编译成功,因为默认的make规则将被执行
+./util/%.o:./util/%.c
+	$(QUIET_CC)$(CC) $(CFLAGS) -c -o $@ $<
 
-%.o:./util/%.cc ./gtest/%.cc
-	$(QUIET_CXX)$(CXX) $(CPPFLAGS) -c $<
+./util/%.o:./util/%.cc
+	$(QUIET_CXX)$(CXX) $(CPPFLAGS) -c -o $@ $<
 
-%.o:./util/%.cpp ./gtest/%.cpp
-	$(QUIET_CXX)$(CXX) $(CPPFLAGS) -c $<
+./util/%.o:./util/%.cpp 
+	$(QUIET_CXX)$(CXX) $(CPPFLAGS) -c -o $@ $<
+
+./gtest/%.o:./gtest/%.c
+	$(QUIET_CC)$(CC) $(CFLAGS) -c -o $@ $<
+
+./gtest/%.o:./gtest/%.cc
+	$(QUIET_CXX)$(CXX) $(CPPFLAGS) -c -o $@ $<
+
+./gtest/%.o:./gtest/%.cpp 
+	$(QUIET_CXX)$(CXX) $(CPPFLAGS) -c -o $@ $<
 
 .PHONY:clean
 

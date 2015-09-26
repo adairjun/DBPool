@@ -27,15 +27,9 @@ class MysqlPool
 
 	// 构造函数创建poolsize个连接错误时候用来打印错误信息
 	string ErrorMessage() const;
-	void lock();
-	void unlock();
-
-	void locki();
-	void unlocki();
 	
  private:
 	mutex m_mutex;
-	mutex initmutex;
 
  public:
 	// 之所以要把这里设置成为public,是因为使用insert的方式来插入连接和是否可用的pair

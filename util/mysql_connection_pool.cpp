@@ -12,24 +12,6 @@
 using std::cout;
 using std::endl;
 
-void MysqlPool::lock(){
-	m_mutex.lock();
-}
-
-void MysqlPool::unlock(){
-	m_mutex.unlock();
-}
-
-void MysqlPool::locki()
-{
-	initmutex.lock();
-}
-
-void MysqlPool::unlocki()
-{
-	initmutex.unlock();
-}	
-
 MysqlPool::MysqlPool()
 {
 	// 从配置文件database.xml当中读入mysql的ip, 用户, 密码, 数据库名称,	

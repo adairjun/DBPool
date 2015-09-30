@@ -3,8 +3,8 @@
 // Author: adairjun
 // This is used to construct a mysql connection DAO(data access obj) 
 
-#ifndef _MYSQL_OBJ_H
-#define _MYSQL_OBJ_H
+#ifndef DBPOOL_INCLUDE_MYSQL_OBJ_H_
+#define DBPOOL_INCLUDE_MYSQL_OBJ_H_
 
 #include <mysql/mysql.h>
 #include "QueryResult.h"
@@ -60,4 +60,4 @@ class MysqlObj
   unsigned long long m_iInsertId;
 };
 
-#endif /* MYSQL_OBJ_H */
+#endif /* DBPOOL_INCLUDE_MYSQL_OBJ_H_ */

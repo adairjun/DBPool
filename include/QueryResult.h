@@ -4,8 +4,8 @@
 // This is used to restore the result from a mysql SELECT 
 
 
-#ifndef _QUERYRESULT_H
-#define _QUERYRESULT_H
+#ifndef DBPOOL_INCLUDE_QUERYRESULT_H_
+#define DBPOOL_INCLUDE_QUERYRESULT_H_
 
 #include <vector>
 #include <string>
@@ -32,4 +32,4 @@ class QueryResult
   //行列的二维数组
   vector<vector<string> > string_table;
 };
-#endif /* QUERYRESULT_H */
+#endif /* QDBPOOL_INCLUDE_QUERYRESULT_H_*/

@@ -3,6 +3,9 @@
 // Author: adairjun
 // This is used to construct a mysql connection pool 
 
+#ifndef DBPOOL_INCLUDE_MYSQL_CONNECTION_POOL_H_
+#define DBPOOL_INCLUDE_MYSQL_CONNECTION_POOL_H_
+
 #include <string.h>
 #include <mutex>
 #include <map>
@@ -57,3 +60,4 @@ class MysqlPool
 
 };
 
+#endif /* DBPOOL_INCLUDE_MYSQL_CONNECTION_POOL_H_ */

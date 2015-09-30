@@ -3,8 +3,8 @@
 // Author: adairjun
 // This is used to construct a redis connection DAO(data access obj) 
 
-#ifndef _REDIS_OBJ_H
-#define _REDIS_OBJ_H
+#ifndef DBPOOL_INCLUDE_REDIS_OBJ_H_
+#define DBPOOL_INCLUDE_REDIS_OBJ_H_
 
 #include <string>
 #include <vector>
@@ -67,4 +67,4 @@ class RedisObj
   string r_strErrorMessage;
 };
 
-#endif /* REDIS_OBJ_H */
+#endif /* DBPOOL_INCLUDE_REDIS_OBJ_H_ */

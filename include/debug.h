@@ -1,3 +1,8 @@
+// Copyright 
+// License
+// Author: adairjun
+// This is used to detect bug
+
 #ifndef _DEBUG_H
 #define _DEBUG_H
 

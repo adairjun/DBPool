@@ -1,4 +1,3 @@
-#include "../include/redis_obj.h"
 #include <iostream>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
@@ -7,6 +6,7 @@
 #include <boost/foreach.hpp>
 #include <boost/lexical_cast.hpp>
 #include <gtest/gtest.h>
+#include "redis_obj.h"
 
 using namespace std;
 

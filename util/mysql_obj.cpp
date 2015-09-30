@@ -1,9 +1,13 @@
-#include "../include/mysql_obj.h"
+#include "mysql_obj.h"
 #include <assert.h>
 #include <cstring>
 
 MysqlObj::MysqlObj(string host, string user, string password, string dbname, unsigned port)
-: m_strHost(host), m_strUser(user), m_strPassword(password), m_strDBname(dbname), m_iPort(port)
+	: m_strHost(host), 
+	  m_strUser(user), 
+	  m_strPassword(password), 
+	  m_strDBname(dbname), 
+	  m_iPort(port)
 {
 	m_pMysql = NULL;
 }

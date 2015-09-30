@@ -7,7 +7,7 @@ AR := ar
 LIBRARY := libdbpool.a
 SHARED := libdbpool.so
 
-INCLUDE := -I/usr/local/include
+INCLUDE := -I/usr/local/include -I./include
 # -lgtest 一定要放在 -lpthread 前面
 LIBS := -L/usr/local/lib -L/usr/lib64/mysql -lgtest -lpthread -lmysqlclient -lhiredis
 
@@ -54,22 +54,22 @@ $(TARGETS): $(OBJECTS)
 
 #下面的Makefile其实只是为了使用安静模式而已,如果将下面的代码去掉的话也能编译成功,因为默认的make规则将被执行
 ./util/%.o:./util/%.c
-	$(QUIET_CC)$(CC) $(CFLAGS) -c -o $@ $<
+	$(QUIET_CC)$(CC) $(INCLUDE) $(CFLAGS) -c -o $@ $<
 
 ./util/%.o:./util/%.cc
-	$(QUIET_CXX)$(CXX) $(CPPFLAGS) -c -o $@ $<
+	$(QUIET_CXX)$(CXX) $(INCLUDE) $(CPPFLAGS) -c -o $@ $<
 
 ./util/%.o:./util/%.cpp 
-	$(QUIET_CXX)$(CXX) $(CPPFLAGS) -c -o $@ $<
+	$(QUIET_CXX)$(CXX) $(INCLUDE) $(CPPFLAGS) -c -o $@ $<
 
 ./gtest/%.o:./gtest/%.c
-	$(QUIET_CC)$(CC) $(CFLAGS) -c -o $@ $<
+	$(QUIET_CC)$(CC) $(INCLUDE) $(CFLAGS) -c -o $@ $<
 
 ./gtest/%.o:./gtest/%.cc
-	$(QUIET_CXX)$(CXX) $(CPPFLAGS) -c -o $@ $<
+	$(QUIET_CXX)$(CXX) $(INCLUDE) $(CPPFLAGS) -c -o $@ $<
 
 ./gtest/%.o:./gtest/%.cpp 
-	$(QUIET_CXX)$(CXX) $(CPPFLAGS) -c -o $@ $<
+	$(QUIET_CXX)$(CXX) $(INCLUDE) $(CPPFLAGS) -c -o $@ $<
 
 .PHONY:clean
 

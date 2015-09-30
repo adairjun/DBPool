@@ -1,9 +1,11 @@
-#include "../include/redis_obj.h"
+#include "redis_obj.h"
 #include <assert.h>
 #include <cstring>
 
 RedisObj::RedisObj(string host, string password, unsigned port)
-: r_strHost(host), r_strPassword(password), r_iPort(port)
+	: r_strHost(host), 
+	  r_strPassword(password), 
+	  r_iPort(port)
 {
 	r_pRedis = NULL;
 }

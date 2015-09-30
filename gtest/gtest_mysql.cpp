@@ -1,9 +1,9 @@
-#include "../include/mysql_connection_pool.h"
 #include <iostream>
 #include <unistd.h>
 #include <stdlib.h>
 #include <thread>
 #include <gtest/gtest.h>
+#include "mysql_connection_pool.h"
 
 using std::cout;
 using std::endl;

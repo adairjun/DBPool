@@ -1,53 +1,40 @@
+#include "../include/redis_connection_pool.h"
 #include <iostream>
-#include <boost/property_tree/ptree.hpp>
-#include <boost/property_tree/xml_parser.hpp>
-#include <boost/property_tree/json_parser.hpp>
-#include <boost/typeof/typeof.hpp>
-#include <boost/foreach.hpp>
-#include <boost/lexical_cast.hpp>
+#include <unistd.h>
+#include <stdlib.h>
+#include <thread>
 #include <gtest/gtest.h>
-#include "redis_obj.h"
 
 using namespace std;
 
 using std::cout;
 using std::endl;
+using std::thread;
 
-void hello() { }
+const char* handler(RedisPool* p_redispool, const char* cmd) {
+  RedisObjPtr conn = p_redispool->getConnection();
+  if (!conn) {
+    cout << "Redis pool getConnection NUll pointer" << endl;
+    exit(-1);
+  }
 
-TEST(helloTest, Test1)
-{
-  // 从配置文件database.xml当中读入mysql的ip, 用户, 密码, 数据库名称,	
-  boost::property_tree::ptree pt;	
-  const char* xml_path = "../config/database.xml";	
-  boost::property_tree::read_xml(xml_path, pt);
-  
-  string host_;
-  string password_;
-  unsigned port_;
-  //这段注释的代码是读取json配置文件的
-  //const char* json_path = "../config/database.json";
-  //boost::property_tree::read_json(json_path, pt);
-  
-  BOOST_AUTO(child, pt.get_child("Config.RedisConnection"));
-  for (BOOST_AUTO(pos, child.begin()); pos!= child.end(); ++pos) {
-  	if (pos->first == "IP") host_ = pos->second.data();
-  	if (pos->first == "Port") port_ = boost::lexical_cast<int>(pos->second.data());
-  	if (pos->first == "Passwd") password_ = pos->second.data();
+  string result;
+  if (conn->StringResult(result)!=1) {
+    cerr << "get StringResult error" << endl;
   }
   
-  RedisObj useRed(host_, password_, port_);	
-  EXPECT_TRUE(useRed.Connect());
-  EXPECT_EQ(0,useRed.ExecuteCmd("set test hello"));
-  EXPECT_EQ(0,useRed.ExecuteCmd("get test"));
-  string result;
-  EXPECT_EQ(1,useRed.StringResult(result));
-  useRed.Close();		
-  cout << result << endl;
+  p_redispool->releaseConnection(conn);
+  cout << "get result is " << result << endl;  
+  return result.c_str();
+}
+
+TEST(handlerTest, Test1) {
+  RedisPool redispool;
+  EXPECT_STREQ("hello", handler(&redispool, "get student"));
 }
 
 int main(int argc, char** argv)
 {
-  testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
+	testing::InitGoogleTest(&argc, argv);
+	return RUN_ALL_TESTS();
 }

@@ -7,6 +7,7 @@
 #define DBPOOL_INCLUDE_MYSQL_OBJ_H_
 
 #include <mysql/mysql.h>
+#include <boost/shared_ptr.hpp>
 #include "QueryResult.h"
 #include "debug.h"
 
@@ -60,4 +61,6 @@ class MysqlObj
   unsigned long long m_iInsertId;
 };
 
+// 使用shared_ptr来替换MysqlObj*
+ typedef boost::shared_ptr<MysqlObj>MysqlObjPtr;
 #endif /* DBPOOL_INCLUDE_MYSQL_OBJ_H_ */

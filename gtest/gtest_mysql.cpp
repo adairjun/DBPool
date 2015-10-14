@@ -12,7 +12,7 @@ using std::thread;
 const char* handler(MysqlPool* p_mypool, const char* sql) 
 {
   // 从数据库连接池当中取出一个可用的连接
-  MysqlObj* conn = p_mypool->getConnection();
+  MysqlObjPtr conn = p_mypool->getConnection();
   
   if (!conn) {
   	cout << "getConnection NULL pointer" << endl;

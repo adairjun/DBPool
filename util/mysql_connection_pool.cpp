@@ -46,13 +46,12 @@ MysqlPool::MysqlPool()
 	{
 //		boost::shared_ptr<Connection> conn =  
 		
-		MysqlObj* conn = new MysqlObj(host_, user_, password_, dbname_, port_);
+		MysqlObjPtr conn(new MysqlObj(host_, user_, password_, dbname_, port_));
 		if(conn->Connect())
 			mysql_map.insert(make_pair(conn, 1));
 		else
 		{
 			m_strErrorMessage = conn->ErrorMessage();
-			delete conn;
 		}
 	}
 
@@ -60,21 +59,14 @@ MysqlPool::MysqlPool()
 
 MysqlPool::~MysqlPool()
 {
-	// 析构函数就是顺序销毁MysqlObj指针
-	
-	for(auto it = mysql_map.begin(); it != mysql_map.end(); ++it)
-	{
-		delete it->first;
-	}
 	mysql_map.clear();
 }
 
 
 // 从map当中得到一个连接
-MysqlObj* MysqlPool::getConnection()
+MysqlObjPtr MysqlPool::getConnection()
 {
 	//get connection operation
-	MysqlObj* ret = NULL;
 	while(true)
 	{
 		bool flag = false;
@@ -84,26 +76,21 @@ MysqlObj* MysqlPool::getConnection()
 			if(it->second == true)
 			{
 				it->second = false;
-				ret = it->first;
+				MysqlObjPtr ret = it->first;
 				flag = true;
-				break;	
+				return ret;
 			}
 		}	
-		if(flag == true)
-		{
-			break;
-		}
-		else
+		if(flag == false)
 		{
 			usleep(1000);
 			continue;
 		}
 	}
-	return ret;
 }
 
 // 释放一个连接还给线程池
-int MysqlPool::releaseConnection(MysqlObj* conn)
+int MysqlPool::releaseConnection(MysqlObjPtr conn)
 {
 	for(auto it = mysql_map.begin(); it != mysql_map.end(); ++it)
 	{

@@ -29,10 +29,10 @@ class MysqlPool
   virtual ~MysqlPool();
   	
   // 从map当中选取一个连接
-  MysqlObj* getConnection();
+  MysqlObjPtr getConnection();
   
   // 释放特定的连接就是把map当中的bool值置为false
-  int releaseConnection(MysqlObj*);
+  int releaseConnection(MysqlObjPtr);
   
   // 构造函数创建poolsize个连接错误时候用来打印错误信息
   string ErrorMessage() const;
@@ -43,7 +43,7 @@ class MysqlPool
  public:
   // 之所以要把这里设置成为public,是因为使用insert的方式来插入连接和是否可用的pair
   // bool值为false的时候说明mysql连接被占用
-  map<MysqlObj*, bool> mysql_map;
+  map<MysqlObjPtr, bool> mysql_map;
   //===========================================================
   // 这里或许可以使用list来代替map,当要取出连接的时候使用list的front和pop,释放连接的时候使用list的push
   //===========================================================

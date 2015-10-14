@@ -18,6 +18,9 @@ const char* handler(RedisPool* p_redispool, const char* cmd) {
     exit(-1);
   }
 
+  if (conn->ExecuteCmd(cmd)==-1) {
+    cerr << "ExecuteCmd error" << endl;
+  }
   string result;
   if (conn->StringResult(result)!=1) {
     cerr << "get StringResult error" << endl;

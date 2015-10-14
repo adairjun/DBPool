@@ -44,13 +44,11 @@ MysqlPool::MysqlPool()
 
 	for(int i=0; i<poolSize_; ++i)
 	{
-//		boost::shared_ptr<Connection> conn =  
 		
 		MysqlObjPtr conn(new MysqlObj(host_, user_, password_, dbname_, port_));
-		if(conn->Connect())
-			mysql_map.insert(make_pair(conn, 1));
-		else
-		{
+		if (conn->Connect()) {
+			mysql_list.push_back(conn);
+		} else {
 			m_strErrorMessage = conn->ErrorMessage();
 		}
 	}
@@ -59,7 +57,6 @@ MysqlPool::MysqlPool()
 
 MysqlPool::~MysqlPool()
 {
-	mysql_map.clear();
 }
 
 
@@ -67,41 +64,21 @@ MysqlPool::~MysqlPool()
 MysqlObjPtr MysqlPool::getConnection()
 {
 	//get connection operation
-	while(true)
-	{
-		bool flag = false;
-		for(auto it = mysql_map.begin(); it != mysql_map.end(); ++it)
-		{
-			unique_lock<mutex> lk(resource_mutex);
-			if(it->second == true)
-			{
-				it->second = false;
-				MysqlObjPtr ret = it->first;
-				flag = true;
-				return ret;
-			}
-		}	
-		if(flag == false)
-		{
-			usleep(1000);
-			continue;
-		}
-	}
+  unique_lock<mutex> lk(resource_mutex);
+  if (!mysql_list.empty()) {
+    MysqlObjPtr ret = mysql_list.front();
+    mysql_list.pop_front();
+    return ret;
+  }  
 }
 
 // 释放一个连接还给线程池
 int MysqlPool::releaseConnection(MysqlObjPtr conn)
 {
-	for(auto it = mysql_map.begin(); it != mysql_map.end(); ++it)
-	{
-		unique_lock<mutex> lk(resource_mutex);
-		if(it->first == conn)
-		{
-			it->second = true;
-			break;
-		}
-	}
-	return 1;
+  if (conn) {
+    mysql_list.push_back(conn);
+  }
+  return 1;
 }
 
 string MysqlPool::ErrorMessage() const

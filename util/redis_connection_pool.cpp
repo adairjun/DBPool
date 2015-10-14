@@ -43,12 +43,9 @@ RedisPool::RedisPool()
 		// 这里使用智能指针RedisObjPtr
 		RedisObjPtr conn(new RedisObj(host_, password_, port_));
 		unique_lock<mutex> lk(resource_mutex);
-		if(conn->Connect())
-		{
+		if (conn->Connect()) {
 			redis_list.push_back(conn);
-		}
-		else
-		{
+		} else {
 			m_strErrorMessage = conn->ErrorMessage();
 		}
 	}

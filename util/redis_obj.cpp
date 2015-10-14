@@ -5,28 +5,23 @@
 RedisObj::RedisObj(string host, string password, unsigned port)
 	: r_strHost(host), 
 	  r_strPassword(password), 
-	  r_iPort(port)
-{
+	  r_iPort(port) {
   r_pRedis = NULL;
 }
 
-RedisObj::~RedisObj()
-{
+RedisObj::~RedisObj() {
   Close();
 }
 
-void RedisObj::Dump() const
-{
+void RedisObj::Dump() const {
   printf("r_pRedis=%p", r_pRedis);
 }
 
-string RedisObj::ErrorMessage()
-{
+string RedisObj::ErrorMessage() {
   return "";
 }
 
-bool RedisObj::Connect()
-{
+bool RedisObj::Connect() {
   r_pRedis = redisConnect(r_strHost.c_str(), r_iPort);  
   if (r_pRedis->err) {
     return false;
@@ -34,16 +29,14 @@ bool RedisObj::Connect()
   return true;
 }
 
-void RedisObj::Close() 
-{
+void RedisObj::Close() {
   if (r_pRedis) {
     redisFree(r_pRedis);
     r_pRedis = NULL;
   }
 }
 
-int RedisObj::ExecuteCmd(IN const char* pCmd)
-{
+int RedisObj::ExecuteCmd(IN const char* pCmd) {
   r_pResult = (redisReply*)redisCommand(r_pRedis, pCmd);  
   if(r_pResult == NULL) {
     return -1;
@@ -52,40 +45,33 @@ int RedisObj::ExecuteCmd(IN const char* pCmd)
 }
 
 
-redisContext* RedisObj::get() const
-{
+redisContext* RedisObj::Get() const {
   return r_pRedis;
 }
 
 
-int RedisObj::IntegerResult(OUT long long &result)
-{
-  return IntegerResult(result, r_pResult);
+int RedisObj::IntegerResult(OUT long long &result) {
+  return IntegerResult(r_pResult, result);
 }
 
-int RedisObj::StringResult(OUT string &result)
-{
-  return StringResult(result, r_pResult);
+int RedisObj::StringResult(OUT string &result) {
+  return StringResult(r_pResult, result);
 }
 
-int RedisObj::StatusResult(OUT string &result)
-{
-  return StatusResult(result, r_pResult);
+int RedisObj::StatusResult(OUT string &result) {
+  return StatusResult(r_pResult, result);
 }
 
-int RedisObj::StringArrayResult(OUT vector<string> &result)
-{
-  return StringArrayResult(result, r_pResult);
+int RedisObj::StringArrayResult(OUT vector<string> &result) {
+  return StringArrayResult(r_pResult, result);
 }
 
-int RedisObj::ArrayResult(OUT vector<redisReply*> &result)
-{
-  return ArrayResult(result, r_pResult);
+int RedisObj::ArrayResult(OUT vector<redisReply*> &result) {
+  return ArrayResult(r_pResult, result);
 }
 
 // 从redis当中获取返回值
-int RedisObj::IntegerResult(OUT long long &result, IN redisReply* reply)
-{
+int RedisObj::IntegerResult(IN redisReply* reply, OUT long long &result) {
   if (reply == NULL) return -1;
   if (reply->type != REDIS_REPLY_INTEGER) return -1;
 
@@ -93,8 +79,7 @@ int RedisObj::IntegerResult(OUT long long &result, IN redisReply* reply)
   return 1;
 }
 
-int RedisObj::StringResult(OUT std::string &result, IN redisReply* reply)
-{
+int RedisObj::StringResult(IN redisReply* reply, OUT std::string &result) {
   if (reply == NULL) return -1;
   if (reply->type == REDIS_REPLY_NIL) return 0;
   if (reply->type != REDIS_REPLY_STRING) return -1;
@@ -104,8 +89,7 @@ int RedisObj::StringResult(OUT std::string &result, IN redisReply* reply)
   return 1;
 }
 
-int RedisObj::StatusResult(OUT std::string &result, IN redisReply* reply)
-{
+int RedisObj::StatusResult(IN redisReply* reply, OUT std::string &result) {
   if (reply == NULL) return -1;
   if (reply->type != REDIS_REPLY_STATUS) return -1;
 
@@ -114,8 +98,7 @@ int RedisObj::StatusResult(OUT std::string &result, IN redisReply* reply)
   return 1;
 }
 
-int RedisObj::StringArrayResult(OUT std::vector<std::string> &result, IN redisReply* reply)
-{
+int RedisObj::StringArrayResult(IN redisReply* reply, OUT std::vector<std::string> &result) {
   if (reply == NULL) return -1;
   if (reply->type == REDIS_REPLY_NIL) return 0;
   if (reply->type != REDIS_REPLY_ARRAY) return -1;
@@ -130,8 +113,8 @@ int RedisObj::StringArrayResult(OUT std::vector<std::string> &result, IN redisRe
   if (result.size() == 0) return 0;
   return 1;
 }
-int RedisObj::ArrayResult(OUT std::vector<redisReply*> &result, IN redisReply* reply)
-{
+
+int RedisObj::ArrayResult(IN redisReply* reply, OUT std::vector<redisReply*> &result) {
   if (reply == NULL) return -1;
   if (reply->type != REDIS_REPLY_ARRAY) return -1;
 

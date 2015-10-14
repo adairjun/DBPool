@@ -15,8 +15,9 @@
 #define OUT
 #define IN
 
-class MysqlObj
-{
+// MysqlObj通过MysqlObj(ip, user, passwd, db, port)来构造,通过Connect()来连接到Mysql数据库
+// 通过ExecuteSql(vecResult, "select * from student")这种形式来执行sql,并把结果保存在vecResult当中
+class MysqlObj {
  public:
   MysqlObj(string HostIP, string pUser, string pPassword, string pDBname, unsigned iPort);
   virtual ~MysqlObj();
@@ -38,10 +39,20 @@ class MysqlObj
   unsigned long long InsertId() const;
   
   //返回MYSQL的指针
-  MYSQL* get() const;
+  MYSQL* Get() const;
   
   //测试mysql服务器是否存活
   bool Ping() const;
+
+  // 事务支持操作
+  // 开始事务
+  int StartTransaction();
+
+  // 提交事务
+  int Commit();
+
+  // 回滚事务
+  int RollBack();
 
  private:
   // MYSQL代表了一条TCP连接
@@ -62,5 +73,5 @@ class MysqlObj
 };
 
 // 使用shared_ptr来替换MysqlObj*
- typedef boost::shared_ptr<MysqlObj>MysqlObjPtr;
+typedef boost::shared_ptr<MysqlObj>MysqlObjPtr;
 #endif /* DBPOOL_INCLUDE_MYSQL_OBJ_H_ */

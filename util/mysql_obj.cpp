@@ -7,23 +7,19 @@ MysqlObj::MysqlObj(string host, string user, string password, string dbname, uns
 	  m_strUser(user), 
 	  m_strPassword(password), 
 	  m_strDBname(dbname), 
-	  m_iPort(port)
-{
+	  m_iPort(port) {
 	m_pMysql = NULL;
 }
 
-MysqlObj::~MysqlObj()
-{	
+MysqlObj::~MysqlObj() {	
   Close();
 }
 
-void MysqlObj::Dump() const
-{
+void MysqlObj::Dump() const {
   printf("m_pMysql=%p", m_pMysql);
 }
 
-string MysqlObj::ErrorMessage()
-{
+string MysqlObj::ErrorMessage() {
   m_strErrorMessage = "";
   if (m_pMysql) {
     string pMessage = mysql_error(m_pMysql);
@@ -32,8 +28,7 @@ string MysqlObj::ErrorMessage()
   return m_strErrorMessage;
 }
 
-bool MysqlObj::Connect()
-{
+bool MysqlObj::Connect() {
   m_pMysql = mysql_init(NULL);
   if (NULL == m_pMysql) {
   	return false;
@@ -55,8 +50,7 @@ bool MysqlObj::Connect()
   return true;
 }
 
-bool MysqlObj::Reconnect() 
-{
+bool MysqlObj::Reconnect() {
   Close();
   m_pMysql = mysql_init(NULL);
   if (NULL == m_pMysql) {
@@ -75,16 +69,14 @@ bool MysqlObj::Reconnect()
   return true;
 }
 
-void MysqlObj::Close() 
-{
+void MysqlObj::Close() {
   if (m_pMysql) {
   	mysql_close(m_pMysql);
   	m_pMysql = NULL;
   }
 }
 
-int MysqlObj::SelectDB(const char *pDatabase) 
-{
+int MysqlObj::SelectDB(const char *pDatabase) {
   assert(m_pMysql);
   int iRet = mysql_select_db(m_pMysql, pDatabase);
   if (0 != iRet) {
@@ -93,8 +85,7 @@ int MysqlObj::SelectDB(const char *pDatabase)
   return iRet;
 }
 
-int MysqlObj::ExecuteSql(IN const char *pSql, OUT QueryResult& vecResult) 
-{
+int MysqlObj::ExecuteSql(IN const char *pSql, OUT QueryResult& vecResult) {
   assert(m_pMysql);
   unsigned int iSqlSize = (unsigned int)strlen(pSql);
   
@@ -165,25 +156,50 @@ int MysqlObj::ExecuteSql(IN const char *pSql, OUT QueryResult& vecResult)
   return 0;
 }
 
-unsigned long long MysqlObj::AffectedRows() const
-{
+unsigned long long MysqlObj::AffectedRows() const {
   return m_iAffectedRows;
 }
 
-unsigned long long MysqlObj::InsertId() const 
-{
+unsigned long long MysqlObj::InsertId() const {
   return m_iInsertId;
 }
 
-MYSQL* MysqlObj::get() const
-{
+MYSQL* MysqlObj::Get() const {
   return m_pMysql;
 }
 
-bool MysqlObj::Ping() const
-{
+bool MysqlObj::Ping() const {
   if(m_pMysql != NULL && !mysql_ping(m_pMysql))
   	return true;
   else
   	return false;
+}
+
+int MysqlObj::StartTransaction() {
+  if (0 != mysql_real_query(m_pMysql, "START TRANSACTION", (unsigned long)strlen("START TRANSACTION"))) {
+    ErrorMessage();
+    return -1;
+  } else {
+    return 0;
+  }
+}
+
+int MysqlObj::Commit() {
+  if (0 != mysql_real_query(m_pMysql, "COMMIT", (unsigned long)strlen("COMMIT"))) {
+    ErrorMessage();
+    return -1;
+  } else {
+    return 0;
+  }
+  
+}
+
+int MysqlObj::RollBack() {
+  if (0 != mysql_real_query(m_pMysql, "ROLLBACK", (unsigned long)strlen("ROLLBACK"))) {
+    ErrorMessage();
+    return -1;
+  } else {
+    return 0;
+  }
+  
 }

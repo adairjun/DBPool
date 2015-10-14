@@ -18,8 +18,7 @@ using std::unique_lock;
 using std::list;
 
 // 这个pool只做了一件事情,那就是创建poolsize个的连接,Mysql的最大连接数目是151
-class MysqlPool
-{
+class MysqlPool {
  public:
   // 批量创建连接在构造函数当中进行
   MysqlPool();
@@ -28,10 +27,10 @@ class MysqlPool
   virtual ~MysqlPool();
   	
   // 从map当中选取一个连接
-  MysqlObjPtr getConnection();
+  MysqlObjPtr GetConnection();
   
   // 释放特定的连接就是把map当中的bool值置为false
-  int releaseConnection(MysqlObjPtr);
+  int ReleaseConnection(MysqlObjPtr);
   
   // 构造函数创建poolsize个连接错误时候用来打印错误信息
   string ErrorMessage() const;
@@ -58,4 +57,6 @@ class MysqlPool
 
 };
 
+// 使用shared_ptr来替换MysqlPool*
+typedef boost::shared_ptr<MysqlPool>MysqlPoolPtr;
 #endif /* DBPOOL_INCLUDE_MYSQL_CONNECTION_POOL_H_ */

@@ -48,6 +48,11 @@ TEST(handlerTest, Test1) {
   EXPECT_STREQ("hello", handler(sql));
 }
 
+TEST(handlerTest, Test2) {
+  string sql = "INSERT INTO student VALUES(10,\"dddddd\");";
+  EXPECT_STREQ("hello", handler(sql));
+}
+
 int main(int argc, char** argv) {
   testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();

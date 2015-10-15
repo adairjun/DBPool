@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <thread>
 #include <gtest/gtest.h>
-#include "redis_connection_pool.h"
+#include "DBPool/redis_connection_pool.h"
 
 using std::cout;
 using std::cerr;

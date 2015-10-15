@@ -4,7 +4,7 @@
 #include <thread>
 #include <Theron/Theron.h>
 #include <gtest/gtest.h>
-#include "mysql_connection_pool.h"
+#include "DBPool/mysql_connection_pool.h"
 
 using std::cout;
 using std::endl;

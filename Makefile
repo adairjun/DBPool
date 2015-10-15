@@ -72,8 +72,12 @@ $(TARGETS): $(OBJECTS)
 ./gtest/%.o:./gtest/%.cpp 
 	$(QUIET_CXX)$(CXX) $(INCLUDE) $(CPPFLAGS) -c -o $@ $<
 
-.PHONY:clean
+.PHONY:clean install
 
 clean:
 	-rm -f ./util/*.o ./gtest/*.o $(LIBRARY) $(SHARED) $(TARGETS)
 	@echo "--------------------------make clean-----------------------"
+
+install:
+	cp -r ./include/DBPool /usr/local/include
+	cp libdbpool.a libdbpool.so /usr/local/lib 

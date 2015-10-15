@@ -2,6 +2,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <thread>
+#include <Theron/Theron.h>
 #include <gtest/gtest.h>
 #include "mysql_connection_pool.h"
 
@@ -9,31 +10,42 @@ using std::cout;
 using std::endl;
 using std::thread;
 
-const char* handler(MysqlPoolPtr p_mypool, const char* sql) {
-  // 从数据库连接池当中取出一个可用的连接
-  MysqlObjPtr conn = p_mypool->GetConnection();
-  if (!conn) {
-  	cout << "getConnection NULL pointer" << endl;
-  	exit(-1);
+static MysqlPoolPtr mysqlpool_ptr(new MysqlPool);
+
+class Actor : public Theron::Actor {
+ public:
+  Actor(Theron::Framework &framework) : Theron::Actor(framework) {
+    RegisterHandler(this, &Actor::Handler);
   }
-  // 保存sql执行结果
-  QueryResult queryResult; 
-  conn->ExecuteSql(sql, queryResult);
-  // 释放连接
-  p_mypool->ReleaseConnection(conn);
-  // 循环输出sql执行结果 
-  for (int i=0;i<queryResult.getRowCount();i++) {
-  	for(int j=0;j<queryResult.getColumnCount();j++) {
-  		cout << queryResult.getElement(i,j) << " ";
-  	}
-  	cout << endl;
-  }
-  return "hello";
+
+ private:
+  void Handler(const string &sql, const Theron::Address from) {
+	MysqlObjPtr conn = mysqlpool_ptr->GetConnection();
+    QueryResult queryResult;
+    conn->ExecuteSql(sql.c_str(), queryResult);
+    mysqlpool_ptr->ReleaseConnection(conn);
+    for (int i=0;i<queryResult.getRowCount();i++) {
+      for(int j=0;j<queryResult.getColumnCount();j++) {
+    	cout << queryResult.getElement(i,j) << " ";
+      }
+    	cout << endl;
+    }
+    Send(0, from);
+  } 
+};
+
+const char* handler(const string &sql) {
+  Theron::Receiver receiver;
+  Theron::Framework(framework);
+  Actor actor(framework);
+  framework.Send(sql, receiver.GetAddress(), actor.GetAddress());
+  receiver.Wait();
+  return "hello"; 
 }
 
 TEST(handlerTest, Test1) {
-  MysqlPoolPtr mysqlpool_ptr(new MysqlPool);
-  EXPECT_STREQ("hello", handler(mysqlpool_ptr, "select * from student"));
+  string sql = "SELECT * FROM student;";
+  EXPECT_STREQ("hello", handler(sql));
 }
 
 int main(int argc, char** argv) {

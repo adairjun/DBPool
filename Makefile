@@ -9,10 +9,10 @@ SHARED := libdbpool.so
 
 INCLUDE := -I/usr/local/include -I./include
 # -lgtest 一定要放在 -lpthread 前面
-LIBS := -L/usr/local/lib -L/usr/lib64/mysql -lgtest -lpthread -lmysqlclient -lhiredis
+LIBS := -L/usr/local/lib -L/usr/lib64/mysql -lgtest -ltheron  -lpthread -lmysqlclient -lhiredis
 
 CFLAGS := 
-CPPFLAGS := -std=c++0x -O2 -g -fPIC
+CPPFLAGS := -std=c++0x -O2 -g -fPIC -DNDEBUG
 SHARED_LDFLAGS := -shared -fPIC -Wl,-soname,${SHARED}
 
 LIBCFILES := $(wildcard ./util/*.c)
@@ -51,7 +51,7 @@ $(SHARED):
 	$(QUIET_CXX)$(CXX) $(SHARED_LDFLAGS) -o $@ $(LIBOBJECTS) $(LIBS)
 
 $(TARGETS): $(OBJECTS)
-	$(QUIET_LINK)$(CXX) -o $@ $(addsuffix .o, $@) $(LIBS) -L. -ldbpool
+	$(QUIET_LINK)$(CXX) -DNDEBUG -o $@ $(addsuffix .o, $@) $(LIBS) -L. -ldbpool
 
 #下面的Makefile其实只是为了使用安静模式而已,如果将下面的代码去掉的话也能编译成功,因为默认的make规则将被执行
 ./util/%.o:./util/%.c

@@ -46,18 +46,15 @@ const char* handler(const string &cmd) {
   Theron::Receiver receiver;
   Theron::Framework(framework);
   Actor actor(framework);
+  Actor actor2(framework);
   framework.Send(cmd, receiver.GetAddress(), actor.GetAddress());
+  framework.Send(cmd, receiver.GetAddress(), actor2.GetAddress());
   receiver.Wait();
   return "hello"; 
 }
 
 TEST(handlerTest, Test1) {
   string cmd = "get student";
-  EXPECT_STREQ("hello", handler(cmd));
-}
-
-TEST(handlerTest, Test2) {
-  string cmd = "get teacher";
   EXPECT_STREQ("hello", handler(cmd));
 }
 

@@ -1,5 +1,5 @@
 #!/bin/bash
-
+#  这个安装依赖库的脚本或许可以直接使用git submodule update --init的方式来安装
 # Make sure only root can run our script
 function rootness()
 {

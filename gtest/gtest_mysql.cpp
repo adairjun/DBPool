@@ -8,7 +8,6 @@
 
 using std::cout;
 using std::endl;
-using std::thread;
 
 static MysqlPoolPtr mysqlpool_ptr(new MysqlPool);
 

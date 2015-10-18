@@ -80,4 +80,4 @@ clean:
 
 install:
 	cp -r ./include/DBPool /usr/local/include
-	cp libdbpool.a libdbpool.so /usr/local/lib 
+	cp $(LIBRARY) $(SHARED) /usr/local/lib 

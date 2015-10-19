@@ -44,7 +44,7 @@ class Actor : public Theron::Actor {
 
 const char* handler(const string &cmd) {
   Theron::Receiver receiver;
-  Theron::Framework(framework);
+  Theron::Framework framework;
   Actor actor(framework);
   Actor actor2(framework);
   framework.Send(cmd, receiver.GetAddress(), actor.GetAddress());

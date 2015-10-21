@@ -21,7 +21,7 @@ using std::list;
 class RedisPool {
  public:
   // 批量创建连接在构造函数当中进行
-  RedisPool();
+  explicit RedisPool();
   // 这里析构函数没有做任何事情
   virtual ~RedisPool();
   	

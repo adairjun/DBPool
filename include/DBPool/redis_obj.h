@@ -23,7 +23,7 @@ using std::vector;
 // 通过执行ExecuteCmd("get student")将redis查询的结果保存在r_pResult当中
 class RedisObj {
  public:
-  RedisObj(string HostIP, string pPassword, unsigned iPort);
+  explicit RedisObj(string HostIP, string pPassword, unsigned iPort);
   virtual ~RedisObj();
   // Dump指的是把m_pRedis的指针指向的值打印出来
   void Dump() const;

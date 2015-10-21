@@ -21,7 +21,7 @@ using std::list;
 class MysqlPool {
  public:
   // 批量创建连接在构造函数当中进行
-  MysqlPool();
+  explicit MysqlPool();
   // 析构函数就是顺序销毁MysqlObj指针
   // 最后清空map
   virtual ~MysqlPool();

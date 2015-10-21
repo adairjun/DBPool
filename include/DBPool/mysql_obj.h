@@ -19,7 +19,7 @@
 // 通过ExecuteSql(vecResult, "select * from student")这种形式来执行sql,并把结果保存在vecResult当中
 class MysqlObj {
  public:
-  MysqlObj(string HostIP, string pUser, string pPassword, string pDBname, unsigned iPort);
+  explicit MysqlObj(string HostIP, string pUser, string pPassword, string pDBname, unsigned iPort);
   virtual ~MysqlObj();
   // Dump指的是把m_pMysql的指针指向的值打印出来
   void Dump() const;

@@ -14,3 +14,4 @@ make sure there is mysql-devel, mysql-libs, boost, hiredis, gtest, theron in you
 ======
 
 内嵌lua来连接mysql,只是为了学习一下lua
+可以直接用lua写出连接池,再使用C++来调用lua

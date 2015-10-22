@@ -25,7 +25,9 @@ class MysqlPool {
   // 析构函数就是顺序销毁MysqlObj指针
   // 最后清空map
   virtual ~MysqlPool();
-  	
+  
+  MysqlPool(const MysqlPool&) = delete;  	
+  MysqlPool& operator=(const MysqlPool&) = delete;
   // 从map当中选取一个连接
   MysqlObjPtr GetConnection();
   
@@ -53,7 +55,7 @@ class MysqlPool {
   int poolSize_;
   
   //错误信息
-  string m_strErrorMessage;  
+  string strErrorMessage_;  
 
 };
 

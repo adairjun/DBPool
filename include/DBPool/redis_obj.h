@@ -20,11 +20,15 @@ using std::vector;
 #define IN
 
 // RedisObj通过RedisObj(ip, passwd, port)来构造,通过Connect()来连接到数据库
-// 通过执行ExecuteCmd("get student")将redis查询的结果保存在r_pResult当中
+// 通过执行ExecuteCmd("get student")将redis查询的结果保存在pResult_当中
 class RedisObj {
  public:
   explicit RedisObj(string HostIP, string pPassword, unsigned iPort);
   virtual ~RedisObj();
+  
+  RedisObj(const RedisObj&) = delete;
+  RedisObj& operator=(const RedisObj&) = delete;
+
   // Dump指的是把m_pRedis的指针指向的值打印出来
   void Dump() const;
   
@@ -57,16 +61,16 @@ class RedisObj {
   
  private:
   // 代表了一条数据库连接
-  redisContext* r_pRedis;
-  redisReply* r_pResult;
+  redisContext* pRedis_;
+  redisReply* pResult_;
  private:
   // 连接必备的参数:IP地址,用户,密码,数据库名称,端口号
-  string r_strHost;
-  string r_strPassword;
-  unsigned r_iPort;
+  string strHost_;
+  string strPassword_;
+  unsigned iPort_;
   
   //错误信息
-  string r_strErrorMessage;
+  string strErrorMessage_;
 };
 
 // 尝试使用shared_ptr来代替RedisObj*

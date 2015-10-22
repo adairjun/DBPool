@@ -21,7 +21,9 @@ class MysqlObj {
  public:
   explicit MysqlObj(string HostIP, string pUser, string pPassword, string pDBname, unsigned iPort);
   virtual ~MysqlObj();
-  // Dump指的是把m_pMysql的指针指向的值打印出来
+  MysqlObj(const MysqlObj&) = delete;
+  MysqlObj& operator=(const MysqlObj&) = delete;
+  // Dump指的是把pMysql_的指针指向的值打印出来
   void Dump() const;
   
   string ErrorMessage();
@@ -56,20 +58,20 @@ class MysqlObj {
 
  private:
   // MYSQL代表了一条TCP连接
-  MYSQL* m_pMysql;
+  MYSQL* pMysql_;
   
   // 连接必备的参数:IP地址,用户,密码,数据库名称,端口号
-  string m_strHost;
-  string m_strUser;
-  string m_strPassword;
-  string m_strDBname;
-  unsigned m_iPort;
+  string strHost_;
+  string strUser_;
+  string strPassword_;
+  string strDBname_;
+  unsigned iPort_;
   
   //错误信息
-  string m_strErrorMessage;
+  string strErrorMessage_;
   // 
-  unsigned long long m_iAffectedRows;
-  unsigned long long m_iInsertId;
+  unsigned long long iAffectedRows_;
+  unsigned long long iInsertId_;
 };
 
 // 使用shared_ptr来替换MysqlObj*

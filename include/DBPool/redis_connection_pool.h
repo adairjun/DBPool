@@ -24,6 +24,9 @@ class RedisPool {
   explicit RedisPool();
   // 这里析构函数没有做任何事情
   virtual ~RedisPool();
+  
+  RedisPool(const RedisPool&) = delete;
+  RedisPool& operator=(const RedisPool&) = delete;
   	
   // 从list当中选取一个连接,pop出来。使用list的好处是每次需要取连接的时候只要取front,不需要像map一样去遍历,节约了时间
   RedisObjPtr GetConnection();
@@ -51,7 +54,7 @@ class RedisPool {
   int poolSize_;
   
   //错误信息
-  string m_strErrorMessage;  
+  string strErrorMessage_;  
 };
 
 // 使用shared_ptr来替换RedisPool*

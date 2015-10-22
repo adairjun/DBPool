@@ -39,7 +39,7 @@ MysqlPool::MysqlPool() {
   	if (conn->Connect()) {
   	  mysql_list.push_back(conn);
   	} else {
-  	  m_strErrorMessage = conn->ErrorMessage();
+  	  strErrorMessage_ = conn->ErrorMessage();
   	}
   }
   
@@ -69,5 +69,5 @@ int MysqlPool::ReleaseConnection(MysqlObjPtr conn) {
 }
 
 string MysqlPool::ErrorMessage() const {
-  return m_strErrorMessage; 
+  return strErrorMessage_; 
 }

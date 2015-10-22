@@ -39,7 +39,7 @@ RedisPool::RedisPool() {
   	if (conn->Connect()) {
   	  redis_list.push_back(conn);
   	} else {
-  	  m_strErrorMessage = conn->ErrorMessage();
+  	  strErrorMessage_ = conn->ErrorMessage();
   	}
   }
 
@@ -69,5 +69,5 @@ int RedisPool::ReleaseConnection(RedisObjPtr conn) {
 }
 
 string RedisPool::ErrorMessage() const {
-  return m_strErrorMessage; 
+  return strErrorMessage_; 
 }

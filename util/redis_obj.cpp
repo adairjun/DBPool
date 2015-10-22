@@ -3,10 +3,10 @@
 #include <cstring>
 
 RedisObj::RedisObj(string host, string password, unsigned port)
-	: r_strHost(host), 
-	  r_strPassword(password), 
-	  r_iPort(port) {
-  r_pRedis = NULL;
+	: strHost_(host), 
+	  strPassword_(password), 
+	  iPort_(port) {
+  pRedis_ = NULL;
 }
 
 RedisObj::~RedisObj() {
@@ -14,7 +14,7 @@ RedisObj::~RedisObj() {
 }
 
 void RedisObj::Dump() const {
-  printf("r_pRedis=%p", r_pRedis);
+  printf("pRedis_=%p", pRedis_);
 }
 
 string RedisObj::ErrorMessage() {
@@ -22,23 +22,23 @@ string RedisObj::ErrorMessage() {
 }
 
 bool RedisObj::Connect() {
-  r_pRedis = redisConnect(r_strHost.c_str(), r_iPort);  
-  if (r_pRedis->err) {
+  pRedis_ = redisConnect(strHost_.c_str(), iPort_);  
+  if (pRedis_->err) {
     return false;
   }
   return true;
 }
 
 void RedisObj::Close() {
-  if (r_pRedis) {
-    redisFree(r_pRedis);
-    r_pRedis = NULL;
+  if (pRedis_) {
+    redisFree(pRedis_);
+    pRedis_ = NULL;
   }
 }
 
 int RedisObj::ExecuteCmd(IN const char* pCmd) {
-  r_pResult = (redisReply*)redisCommand(r_pRedis, pCmd);  
-  if(r_pResult == NULL) {
+  pResult_ = (redisReply*)redisCommand(pRedis_, pCmd);  
+  if(pResult_ == NULL) {
     return -1;
   }  
   return 0;
@@ -46,28 +46,28 @@ int RedisObj::ExecuteCmd(IN const char* pCmd) {
 
 
 redisContext* RedisObj::Get() const {
-  return r_pRedis;
+  return pRedis_;
 }
 
 
 int RedisObj::IntegerResult(OUT long long &result) {
-  return IntegerResult(r_pResult, result);
+  return IntegerResult(pResult_, result);
 }
 
 int RedisObj::StringResult(OUT string &result) {
-  return StringResult(r_pResult, result);
+  return StringResult(pResult_, result);
 }
 
 int RedisObj::StatusResult(OUT string &result) {
-  return StatusResult(r_pResult, result);
+  return StatusResult(pResult_, result);
 }
 
 int RedisObj::StringArrayResult(OUT vector<string> &result) {
-  return StringArrayResult(r_pResult, result);
+  return StringArrayResult(pResult_, result);
 }
 
 int RedisObj::ArrayResult(OUT vector<redisReply*> &result) {
-  return ArrayResult(r_pResult, result);
+  return ArrayResult(pResult_, result);
 }
 
 // 从redis当中获取返回值

@@ -15,3 +15,9 @@ make sure there is mysql-devel, mysql-libs, boost, hiredis, gtest, theron in you
 
 内嵌lua来连接mysql,只是为了学习一下lua
 可以直接用lua写出连接池,再使用C++来调用lua
+
+要使用lua,首先需要安装luarocks
+然后使用
+luarocks install luasql-mysql
+luarocks install redis-lua
+使用luarocks list来查看安装

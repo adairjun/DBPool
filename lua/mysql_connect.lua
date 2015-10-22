@@ -1,5 +1,5 @@
 #!/usr/local/bin/lua 
--- 代码来值lua 菜鸟教程
+-- 代码来自己lua 菜鸟教程
 -- 将mysql驱动包含进来
 require "luasql.mysql"
 

@@ -1,4 +1,5 @@
 #!/usr/local/bin/lua 
+-- 将mysql驱动包含进来
 require "luasql.mysql"
 
 --创建环境对象
@@ -27,7 +28,6 @@ while row do
 
 	row = cur:fetch(row,"a")
 end
-
 
 file:close()  --关闭文件对象
 conn:close()  --关闭数据库连接

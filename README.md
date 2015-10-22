@@ -12,3 +12,5 @@ make sure there is mysql-devel, mysql-libs, boost, hiredis, gtest, theron in you
 
 使用gtest来测试代码,使用theron库来进行C++的高并发,测试是否线程安全
 ======
+
+内嵌lua来连接mysql,只是为了学习一下lua

@@ -10,6 +10,7 @@
 #include <string>
 #include <vector>
 #include <boost/shared_ptr.hpp>
+#include <glog/logging.h>
 #include "debug.h"
 
 using std::string;

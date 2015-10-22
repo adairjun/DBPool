@@ -1,6 +1,8 @@
 #include "DBPool/mysql_obj.h"
+#include <glog/logging.h>
 #include <assert.h>
 #include <cstring>
+
 
 MysqlObj::MysqlObj(string host, string user, string password, string dbname, unsigned port)
 	: strHost_(host), 
@@ -88,7 +90,8 @@ int MysqlObj::SelectDB(const char *pDatabase) {
 int MysqlObj::ExecuteSql(IN const char *pSql, OUT QueryResult& vecResult) {
   assert(pMysql_);
   unsigned int iSqlSize = (unsigned int)strlen(pSql);
-  
+  // 使用glog打日志
+  LOG(INFO) << "[Before execute SQL: ]" << pSql;  
   if (0 != mysql_real_query(pMysql_, pSql, iSqlSize)) {
     ErrorMessage();
     return -1;

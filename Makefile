@@ -9,7 +9,7 @@ SHARED := libdbpool.so
 
 INCLUDE := -I/usr/local/include -I./include
 # -lgtest 一定要放在 -lpthread 前面
-LIBS := -L/usr/local/lib -L/usr/lib64/mysql -lgtest -ltheron  -lpthread -lmysqlclient -lhiredis
+LIBS := -L/usr/local/lib -L/usr/lib64/mysql -lgtest -ltheron -lpthread -lmysqlclient -lhiredis -lglog
 
 CFLAGS := 
 CPPFLAGS := -std=c++0x -O2 -g -fPIC -DNDEBUG

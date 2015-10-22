@@ -25,8 +25,8 @@ class Actor : public Theron::Actor {
   // 定义注册的函数,第一个参数是接受的message的类型,第二个参数是发送message的源地址
   // 由于这里要操作sql,所以使用string类型
   void Handler(const string &sql, const Theron::Address from) {
-    // 从全局的mysql连接池当中取出一个连接
-	MysqlObjPtr conn = mysqlpool_ptr->GetConnection();
+    // 从全局的mysql连接池当中取出一个连接 
+    MysqlObjPtr conn = mysqlpool_ptr->GetConnection(); 
     QueryResult queryResult;
     conn->ExecuteSql(sql.c_str(), queryResult);
     mysqlpool_ptr->ReleaseConnection(conn);
@@ -123,6 +123,9 @@ TEST(updateTest, Test1) {
 }
 
 int main(int argc, char** argv) {
+  // 启动glog日志库
+  google::InitGoogleLogging(argv[0]);
+  google::SetLogDestination(google::INFO,"../log/INFO_");
   testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }

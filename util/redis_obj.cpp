@@ -1,4 +1,5 @@
 #include "DBPool/redis_obj.h"
+#include <glog/logging.h>
 #include <assert.h>
 #include <cstring>
 

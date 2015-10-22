@@ -8,6 +8,7 @@
 
 #include <mysql/mysql.h>
 #include <boost/shared_ptr.hpp>
+#include <glog/logging.h>
 #include "QueryResult.h"
 #include "debug.h"
 

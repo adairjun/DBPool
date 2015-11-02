@@ -1,5 +1,4 @@
 #include "DBPool/mysql_obj.h"
-#include <glog/logging.h>
 #include <assert.h>
 #include <cstring>
 

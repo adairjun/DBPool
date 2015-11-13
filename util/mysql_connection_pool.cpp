@@ -48,8 +48,9 @@ MysqlPool::MysqlPool() {
 MysqlPool::~MysqlPool() {
 }
 
-
-// 从map当中得到一个连接
+/**
+ * 从map当中得到一个连接
+ */
 MysqlObjPtr MysqlPool::GetConnection() {
   //get connection operation
   unique_lock<mutex> lk(resource_mutex);
@@ -60,7 +61,9 @@ MysqlObjPtr MysqlPool::GetConnection() {
   }  
 }
 
-// 释放一个连接还给线程池
+/**
+ * 释放一个连接还给线程池
+ */
 int MysqlPool::ReleaseConnection(MysqlObjPtr conn) {
   if (conn) {
     mysql_list.push_back(conn);

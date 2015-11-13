@@ -24,12 +24,16 @@ class MysqlObj {
   virtual ~MysqlObj();
   MysqlObj(const MysqlObj&) = delete;
   MysqlObj& operator=(const MysqlObj&) = delete;
-  // Dump指的是把pMysql_的指针指向的值打印出来
+  /**
+   *  Dump指的是把pMysql_的指针指向的值打印出来
+   */
   void Dump() const;
   
   string ErrorMessage();
   
-  // 根据成员变量来建立MYSQL连接
+  /**
+   * 根据成员变量来建立MYSQL连接
+   */
   bool Connect();
   bool Reconnect();
   void Close();
@@ -37,24 +41,36 @@ class MysqlObj {
   int SelectDB(const char* pDatabase);
   int ExecuteSql(IN const char* pSql, OUT QueryResult& vecResult);
   
-  //执行SQL受到影响的行数
+  /**
+   * 执行SQL受到影响的行数
+   */
   unsigned long long AffectedRows() const;
   unsigned long long InsertId() const;
   
-  //返回MYSQL的指针
+  /**
+   * 返回MYSQL的指针
+   */
   MYSQL* Get() const;
   
-  //测试mysql服务器是否存活
+  /**
+   * 测试mysql服务器是否存活
+   */
   bool Ping() const;
 
   // 事务支持操作
-  // 开始事务
+  /**
+   * 开始事务
+   */
   int StartTransaction();
 
-  // 提交事务
+  /**
+   * 提交事务
+   */
   int Commit();
 
-  // 回滚事务
+  /**
+   * 回滚事务
+   */
   int RollBack();
 
  private:

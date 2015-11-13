@@ -49,7 +49,9 @@ RedisPool::~RedisPool() {
 	// 由于使用了智能指针,不需要手动delete,析构函数不需要操作
 }
 
-// 从list当中得到一个连接
+/**
+ * 从list当中得到一个连接
+ */
 RedisObjPtr RedisPool::GetConnection() {
   //get connection operation
   unique_lock<mutex> lk(resource_mutex);
@@ -60,7 +62,9 @@ RedisObjPtr RedisPool::GetConnection() {
   }
 }
 
-// 释放一个连接还给线程池
+/**
+ * 释放一个连接还给线程池
+ */
 int RedisPool::ReleaseConnection(RedisObjPtr conn) {
   if (conn) {
     redis_list.push_back(conn);

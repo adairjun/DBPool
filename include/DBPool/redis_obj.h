@@ -30,22 +30,30 @@ class RedisObj {
   RedisObj(const RedisObj&) = delete;
   RedisObj& operator=(const RedisObj&) = delete;
 
-  // Dump指的是把m_pRedis的指针指向的值打印出来
+  /**
+   * Dump指的是把m_pRedis的指针指向的值打印出来
+   */
   void Dump() const;
   
   string ErrorMessage();
   
-  // 根据成员变量来建立Redis连接
+  /**
+   * 根据成员变量来建立Redis连接
+   */
   bool Connect();
   void Close();
   
   int ExecuteCmd(const char* pCmd);
   
-  //返回Redis的指针
+  /**
+   * 返回Redis的指针
+   */
   redisContext* Get() const;
 
  public: 
-  // 从redis当中获取返回值
+  /**
+   * 从redis当中获取返回值
+   */
   int IntegerResult(OUT long long &result);
   int StringResult(OUT string &result);
   int StatusResult(OUT string &result);
@@ -53,7 +61,9 @@ class RedisObj {
   int ArrayResult(OUT vector<redisReply*> &result);
   
  private:
-  // 从redis当中获取返回值
+  /**
+   * 从redis当中获取返回值
+   */
   int IntegerResult(IN redisReply* reply, OUT long long &result);
   int StringResult(IN redisReply* reply, OUT string &result);
   int StatusResult(IN redisReply* reply, OUT string &result);

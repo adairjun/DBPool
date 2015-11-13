@@ -20,21 +20,31 @@ using std::list;
 // 这个pool只做了一件事情,那就是创建poolsize个的连接
 class RedisPool {
  public:
-  // 批量创建连接在构造函数当中进行
+	/**
+	 * 批量创建连接在构造函数当中进行
+	 */
   explicit RedisPool();
-  // 这里析构函数没有做任何事情
+  /**
+   * 这里析构函数没有做任何事情
+   */
   virtual ~RedisPool();
   
   RedisPool(const RedisPool&) = delete;
   RedisPool& operator=(const RedisPool&) = delete;
   	
-  // 从list当中选取一个连接,pop出来。使用list的好处是每次需要取连接的时候只要取front,不需要像map一样去遍历,节约了时间
+  /**
+   * 从list当中选取一个连接,pop出来。使用list的好处是每次需要取连接的时候只要取front,不需要像map一样去遍历,节约了时间
+   */
   RedisObjPtr GetConnection();
   
-  // 释放特定的连接就是把连接重新放回到list当中去
+  /**
+   * 释放特定的连接就是把连接重新放回到list当中去
+   */
   int ReleaseConnection(RedisObjPtr);
   
-  // 构造函数创建poolsize个连接错误时候用来打印错误信息
+  /**
+   * 构造函数创建poolsize个连接错误时候用来打印错误信息
+   */
   string ErrorMessage() const;
 
  private:

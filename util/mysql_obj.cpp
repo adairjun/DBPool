@@ -1,4 +1,5 @@
 #include "DBPool/mysql_obj.h"
+#include <glog/logging.h>
 #include <assert.h>
 #include <cstring>
 
@@ -47,7 +48,7 @@ bool MysqlObj::Connect() {
     Close();
   	return false;
   }
-  mysql_set_character_set(pMysql_, "gb2312");
+  mysql_set_character_set(pMysql_, "utf8");
   return true;
 }
 

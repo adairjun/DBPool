@@ -50,17 +50,20 @@ RedisPool::~RedisPool() {
 }
 
 void RedisPool::Dump() const {
-  printf("RedisPool::Dump ========== \n");
+  printf("\n=====RedisPool Dump START ========== \n");
   printf("host_=%s ", host_.c_str());
   printf("user_=%s ", user_.c_str());
   printf("password_=%s ", password_.c_str());
   printf("port_=%d ", port_);
   printf("poolSize_=%d ", poolSize_);
   printf("strErrorMessage_=%s ", strErrorMessage_.c_str());
+  int count = 0;
   for (auto it = redis_list.begin(); it!=redis_list.end(); ++it) {
+    printf("count==%d ", count);
     (*it)->Dump();
+    ++count;
   }
-  printf("\n");
+  printf("\n===RedisPool DUMP END ============\n");
 }
 
 /**

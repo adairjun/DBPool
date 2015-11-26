@@ -18,7 +18,7 @@ MysqlObj::~MysqlObj() {
 }
 
 void MysqlObj::Dump() const { 
-  printf("MysqlObj::Dump ========== \n");
+  printf("\n=====MysqlObj Dump START ========== \n");
   printf("pMysql_=%p ", pMysql_);
   printf("strHost_=%s ", strHost_.c_str());
   printf("strUser_=%s ", strUser_.c_str());
@@ -28,7 +28,7 @@ void MysqlObj::Dump() const {
   printf("strErrorMessage_=%s ", strErrorMessage_.c_str());
   printf("iAffectedRows_=%d ", iAffectedRows_);
   printf("iInsertId_=%d ", iInsertId_);
-  printf("\n");
+  printf("\n===MysqlObj DUMP END ============\n");
 }
 
 string MysqlObj::ErrorMessage() {

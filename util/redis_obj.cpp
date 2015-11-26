@@ -14,14 +14,14 @@ RedisObj::~RedisObj() {
 }
 
 void RedisObj::Dump() const {
-  printf("RedisObj::Dump ========== \n");
+  printf("\n=====RedisObj Dump START ========== \n");
   printf("pRedis_=%p ", pRedis_);
   printf("pResult_=%p ", pResult_);
   printf("strHost_=%s ", strHost_.c_str());
   printf("strPassword_=%s ", strPassword_.c_str());
   printf("iPort_=%d ", iPort_);
   printf("strErrorMessage_=%s ", strErrorMessage_.c_str());
-  printf("\n");
+  printf("\n===RedisObj DUMP END ============\n");
 }
 
 string RedisObj::ErrorMessage() {

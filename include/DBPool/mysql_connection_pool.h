@@ -12,7 +12,6 @@
 #include "mysql_obj.h"
 
 using std::string;
-using std::vector;
 using std::mutex;
 using std::unique_lock;
 using std::list;

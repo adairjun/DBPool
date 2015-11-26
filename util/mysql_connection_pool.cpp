@@ -65,6 +65,7 @@ MysqlObjPtr MysqlPool::GetConnection() {
  * 释放一个连接还给线程池
  */
 int MysqlPool::ReleaseConnection(MysqlObjPtr conn) {
+  unique_lock<mutex> lk(resource_mutex);
   if (conn) {
     mysql_list.push_back(conn);
   }

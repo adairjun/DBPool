@@ -31,6 +31,8 @@ class RedisPool {
   
   RedisPool(const RedisPool&) = delete;
   RedisPool& operator=(const RedisPool&) = delete;
+ 
+  void Dump() const;
   	
   /**
    * 从list当中选取一个连接,pop出来。使用list的好处是每次需要取连接的时候只要取front,不需要像map一样去遍历,节约了时间

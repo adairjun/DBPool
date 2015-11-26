@@ -14,16 +14,24 @@ RedisObj::~RedisObj() {
 }
 
 void RedisObj::Dump() const {
-  printf("pRedis_=%p", pRedis_);
+  printf("\n=====RedisObj Dump START ========== \n");
+  printf("pRedis_=%p ", pRedis_);
+  printf("pResult_=%p ", pResult_);
+  printf("strHost_=%s ", strHost_.c_str());
+  printf("strPassword_=%s ", strPassword_.c_str());
+  printf("iPort_=%d ", iPort_);
+  printf("strErrorMessage_=%s ", strErrorMessage_.c_str());
+  printf("\n===RedisObj DUMP END ============\n");
 }
 
 string RedisObj::ErrorMessage() {
-  return "";
+  return strErrorMessage_;
 }
 
 bool RedisObj::Connect() {
   pRedis_ = redisConnect(strHost_.c_str(), iPort_);  
   if (pRedis_->err) {
+    strErrorMessage_ = "pRedis->err";
     return false;
   }
   return true;
@@ -39,6 +47,7 @@ void RedisObj::Close() {
 int RedisObj::ExecuteCmd(IN const char* pCmd) {
   pResult_ = (redisReply*)redisCommand(pRedis_, pCmd);  
   if(pResult_ == NULL) {
+    strErrorMessage_ = "pResult == NULL";
     return -1;
   }  
   return 0;
@@ -76,17 +85,17 @@ int RedisObj::IntegerResult(IN redisReply* reply, OUT long long &result) {
   if (reply->type != REDIS_REPLY_INTEGER) return -1;
 
   result = reply->integer;
-  return 1;
+  return 0;
 }
 
 int RedisObj::StringResult(IN redisReply* reply, OUT std::string &result) {
-  if (reply == NULL) return -1;
-  if (reply->type == REDIS_REPLY_NIL) return 0;
-  if (reply->type != REDIS_REPLY_STRING) return -1;
+  if (reply == NULL) return -2;
+  if (reply->type == REDIS_REPLY_NIL) return -1;
+  if (reply->type != REDIS_REPLY_STRING) return -2;
 
   result.clear();
   result.assign(reply->str, reply->len);
-  return 1;
+  return 0;
 }
 
 int RedisObj::StatusResult(IN redisReply* reply, OUT std::string &result) {
@@ -95,13 +104,13 @@ int RedisObj::StatusResult(IN redisReply* reply, OUT std::string &result) {
 
   result.clear();
   result.assign(reply->str, reply->len);
-  return 1;
+  return 0;
 }
 
 int RedisObj::StringArrayResult(IN redisReply* reply, OUT std::vector<std::string> &result) {
-  if (reply == NULL) return -1;
-  if (reply->type == REDIS_REPLY_NIL) return 0;
-  if (reply->type != REDIS_REPLY_ARRAY) return -1;
+  if (reply == NULL) return -2;
+  if (reply->type == REDIS_REPLY_NIL) return -1;
+  if (reply->type != REDIS_REPLY_ARRAY) return -2;
 
   result.clear();
   for (size_t i=0; i<reply->elements; i++) {
@@ -110,20 +119,20 @@ int RedisObj::StringArrayResult(IN redisReply* reply, OUT std::vector<std::strin
       result.emplace_back(r->str, r->len);
     }
   }
-  if (result.size() == 0) return 0;
-  return 1;
+  if (result.size() == 0) return -1;
+  return 0;
 }
 
 int RedisObj::ArrayResult(IN redisReply* reply, OUT std::vector<redisReply*> &result) {
-  if (reply == NULL) return -1;
-  if (reply->type != REDIS_REPLY_ARRAY) return -1;
+  if (reply == NULL) return -2;
+  if (reply->type != REDIS_REPLY_ARRAY) return -2;
 
   result.clear();
   for (size_t i=0; i<reply->elements; i++) {
     redisReply* r = reply->element[i];
     result.emplace_back(r);
   }
-  if(result.size() == 0) return 0;
-  return 1;
+  if(result.size() == 0) return -1;
+  return 0;
 }
 

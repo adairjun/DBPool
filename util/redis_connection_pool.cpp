@@ -49,6 +49,23 @@ RedisPool::~RedisPool() {
 	// 由于使用了智能指针,不需要手动delete,析构函数不需要操作
 }
 
+void RedisPool::Dump() const {
+  printf("\n=====RedisPool Dump START ========== \n");
+  printf("host_=%s ", host_.c_str());
+  printf("user_=%s ", user_.c_str());
+  printf("password_=%s ", password_.c_str());
+  printf("port_=%d ", port_);
+  printf("poolSize_=%d ", poolSize_);
+  printf("strErrorMessage_=%s ", strErrorMessage_.c_str());
+  int count = 0;
+  for (auto it = redis_list.begin(); it!=redis_list.end(); ++it) {
+    printf("count==%d ", count);
+    (*it)->Dump();
+    ++count;
+  }
+  printf("\n===RedisPool DUMP END ============\n");
+}
+
 /**
  * 从list当中得到一个连接
  */

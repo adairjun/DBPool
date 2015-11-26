@@ -48,6 +48,22 @@ MysqlPool::MysqlPool() {
 MysqlPool::~MysqlPool() {
 }
 
+void MysqlPool::Dump() const{
+  printf("MysqlPool::Dump ========== \n");
+  printf("host_=%s ", host_.c_str());
+  printf("user_=%s ", user_.c_str());
+  printf("password_=%s ", password_.c_str());
+  printf("dbname_=%s ", dbname_.c_str());
+  printf("port_=%d ", port_);
+  printf("poolSize_=%d ", poolSize_);
+  printf("strErrorMessage_=%s ", strErrorMessage_.c_str());
+  //至于list<MysqlObjPtr> mysql_list这个成员
+  for (auto it = mysql_list.begin(); it!=mysql_list.end(); ++it) {
+    (*it)->Dump();
+  }
+  printf("\n");
+}
+
 /**
  * 从map当中得到一个连接
  */

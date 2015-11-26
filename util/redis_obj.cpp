@@ -14,16 +14,24 @@ RedisObj::~RedisObj() {
 }
 
 void RedisObj::Dump() const {
-  printf("pRedis_=%p", pRedis_);
+  printf("RedisObj::Dump ========== \n");
+  printf("pRedis_=%p ", pRedis_);
+  printf("pResult_=%p ", pResult_);
+  printf("strHost_=%s ", strHost_.c_str());
+  printf("strPassword_=%s ", strPassword_.c_str());
+  printf("iPort_=%d ", iPort_);
+  printf("strErrorMessage_=%s ", strErrorMessage_.c_str());
+  printf("\n");
 }
 
 string RedisObj::ErrorMessage() {
-  return "";
+  return strErrorMessage_;
 }
 
 bool RedisObj::Connect() {
   pRedis_ = redisConnect(strHost_.c_str(), iPort_);  
   if (pRedis_->err) {
+    strErrorMessage_ = "pRedis->err";
     return false;
   }
   return true;
@@ -39,6 +47,7 @@ void RedisObj::Close() {
 int RedisObj::ExecuteCmd(IN const char* pCmd) {
   pResult_ = (redisReply*)redisCommand(pRedis_, pCmd);  
   if(pResult_ == NULL) {
+    strErrorMessage_ = "pResult == NULL";
     return -1;
   }  
   return 0;

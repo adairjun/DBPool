@@ -17,8 +17,18 @@ MysqlObj::~MysqlObj() {
   Close();
 }
 
-void MysqlObj::Dump() const {
-  printf("pMysql_=%p", pMysql_);
+void MysqlObj::Dump() const { 
+  printf("MysqlObj::Dump ========== \n");
+  printf("pMysql_=%p ", pMysql_);
+  printf("strHost_=%s ", strHost_.c_str());
+  printf("strUser_=%s ", strUser_.c_str());
+  printf("strPassword_=%s ", strPassword_.c_str());
+  printf("strDBname_=%s ", strDBname_.c_str());
+  printf("iPort_=%d ", iPort_);
+  printf("strErrorMessage_=%s ", strErrorMessage_.c_str());
+  printf("iAffectedRows_=%d ", iAffectedRows_);
+  printf("iInsertId_=%d ", iInsertId_);
+  printf("\n");
 }
 
 string MysqlObj::ErrorMessage() {

@@ -29,9 +29,12 @@ class MysqlPool {
    * 最后清空map
    */
   virtual ~MysqlPool();
-  
+
   MysqlPool(const MysqlPool&) = delete;  	
   MysqlPool& operator=(const MysqlPool&) = delete;
+
+  void Dump() const;
+  
   /**
    * 从map当中选取一个连接
    */

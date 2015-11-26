@@ -25,7 +25,7 @@ class MysqlObj {
   MysqlObj(const MysqlObj&) = delete;
   MysqlObj& operator=(const MysqlObj&) = delete;
   /**
-   *  Dump指的是把pMysql_的指针指向的值打印出来
+   *  Dump指的是把class的private成员全部打印出来看一下
    */
   void Dump() const;
   

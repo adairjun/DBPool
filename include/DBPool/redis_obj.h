@@ -31,7 +31,7 @@ class RedisObj {
   RedisObj& operator=(const RedisObj&) = delete;
 
   /**
-   * Dump指的是把m_pRedis的指针指向的值打印出来
+   * Dump指的是把所有的成员函数都打印出来
    */
   void Dump() const;
   

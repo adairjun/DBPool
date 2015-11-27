@@ -67,6 +67,10 @@ void MysqlPool::Dump() const{
   printf("\n===MysqlPool DUMP END ============\n");
 }
 
+bool MysqlPool::Empty() const {
+  return mysql_list.empty();
+}
+
 /**
  * 从map当中得到一个连接
  */

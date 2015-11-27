@@ -34,6 +34,7 @@ class MysqlPool {
 
   void Dump() const;
   
+  bool Empty() const;
   /**
    * 从map当中选取一个连接
    */

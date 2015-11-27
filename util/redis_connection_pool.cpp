@@ -66,6 +66,10 @@ void RedisPool::Dump() const {
   printf("\n===RedisPool DUMP END ============\n");
 }
 
+bool RedisPool::Empty() const {
+  return redis_list.empty();
+}
+
 /**
  * 从list当中得到一个连接
  */

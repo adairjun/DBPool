@@ -5,8 +5,8 @@
 		{
 			"IP": "127.0.0.1",
 			"Port": 3306,
-			"User": "hqy",
-			"Passwd": "hqy",
+			"User": "root",
+			"Passwd": "passwd",
 			"DBName": "testdb",
 			"max_connections": 150
 		},

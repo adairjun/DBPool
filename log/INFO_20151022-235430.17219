@@ -1,6 +1,0 @@
-Log file created at: 2015/10/22 23:54:30
-Running on machine: ubuntu
-Log line format: [IWEF]mmdd hh:mm:ss.uuuuuu threadid file:line] msg
-I1022 23:54:30.774919 17373 mysql_obj.cpp:94] [Before execute SQL: ]SELECT * FROM student;
-I1022 23:54:30.774919 17374 mysql_obj.cpp:94] [Before execute SQL: ]SELECT * FROM student;
-I1022 23:54:30.978186 17390 mysql_obj.cpp:94] [Before execute SQL: ]SELECT student_name FROM student WHERE student_id=1;

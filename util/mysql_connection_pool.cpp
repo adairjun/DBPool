@@ -1,36 +1,27 @@
 #include "DBPool/mysql_connection_pool.h"
+#include "DBPool/parse_xml.h"
+#include "DBPool/parse_json.h"
 #include <stdlib.h>
 #include <iostream>
 #include <unistd.h>
-#include <boost/property_tree/ptree.hpp>
-#include <boost/property_tree/xml_parser.hpp>
-#include <boost/property_tree/json_parser.hpp>
-#include <boost/typeof/typeof.hpp>
-#include <boost/foreach.hpp>
 #include <boost/lexical_cast.hpp>
 
 using std::cout;
 using std::endl;
 
 MysqlPool::MysqlPool() {
-  // 从配置文件database.xml当中读入mysql的ip, 用户, 密码, 数据库名称,	
-  boost::property_tree::ptree pt;	
-  const char* xml_path = "../config/database.xml";	
-  boost::property_tree::read_xml(xml_path, pt);
-  
+  ParseXmlObj myXml("../config/database.xml");
+  map<string, string> key_value_map = myXml.GetChildDataMap("Config.MysqlConnection"); 
   //这段注释的代码是读取json配置文件的
-  //	const char* json_path = "../config/database.json";
-  //	boost::property_tree::read_json(json_path, pt);
+  // ParseJsonObj myJson("../config/database.json");
+  // map<string, string> key_value_map = myJson.GetChildDataMap("Config.MysqlConnection"); 
+   host_ = key_value_map["IP"];
+   port_ = boost::lexical_cast<int>(key_value_map["Port"]);
+   user_ = key_value_map["User"];
+   password_ = key_value_map["Passwd"];
+   dbname_ = key_value_map["DBName"];
+   poolSize_ = boost::lexical_cast<int>(key_value_map["max_connections"]);
   
-  BOOST_AUTO(child, pt.get_child("Config.MysqlConnection"));
-  for (BOOST_AUTO(pos, child.begin()); pos!= child.end(); ++pos) {
-  	if (pos->first == "IP") host_ = pos->second.data();
-  	if (pos->first == "Port") port_ = boost::lexical_cast<int>(pos->second.data());
-  	if (pos->first == "User") user_ = pos->second.data();
-  	if (pos->first == "Passwd") password_ = pos->second.data();
-  	if (pos->first == "DBName") dbname_ = pos->second.data();
-  	if (pos->first == "max_connections") poolSize_ = boost::lexical_cast<int>(pos->second.data());
-  }
   // 构造函数的作用就是根据poolSize的大小来构造多个映射
   // 每个映射的连接都是同样的host,user,pass,dbname
   
@@ -42,7 +33,6 @@ MysqlPool::MysqlPool() {
   	  strErrorMessage_ = conn->ErrorMessage();
   	}
   }
-  
 }
 
 MysqlPool::~MysqlPool() {

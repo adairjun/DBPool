@@ -26,8 +26,8 @@ void MysqlObj::Dump() const {
   printf("strDBname_=%s ", strDBname_.c_str());
   printf("iPort_=%d ", iPort_);
   printf("strErrorMessage_=%s ", strErrorMessage_.c_str());
-  printf("iAffectedRows_=%d ", iAffectedRows_);
-  printf("iInsertId_=%d ", iInsertId_);
+  printf("iAffectedRows_=%lld ", iAffectedRows_);
+  printf("iInsertId_=%lld ", iInsertId_);
   printf("\n===MysqlObj DUMP END ============\n");
 }
 

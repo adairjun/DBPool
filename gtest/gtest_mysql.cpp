@@ -123,9 +123,6 @@ TEST(updateTest, Test1) {
 }
 
 int main(int argc, char** argv) {
-  // 启动glog日志库
-  google::InitGoogleLogging(argv[0]);
-  google::SetLogDestination(google::INFO,"../log/INFO_");
   testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }

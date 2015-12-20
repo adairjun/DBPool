@@ -1,0 +1,9 @@
+LogLevel[INFO]-----Time:[2015-12-20 18:02:59]
+FILE:[util/mysql_obj.cpp]-----LINE:[103]
+[Before execute SQL: ]SELECT * FROM student;
+LogLevel[INFO]-----Time:[2015-12-20 18:02:59]
+FILE:[util/mysql_obj.cpp]-----LINE:[103]
+[Before execute SQL: ]SELECT * FROM student;
+LogLevel[INFO]-----Time:[2015-12-20 18:02:59]
+FILE:[util/mysql_obj.cpp]-----LINE:[103]
+[Before execute SQL: ]SELECT student_name FROM student WHERE student_id=1;

@@ -6,11 +6,11 @@
 #ifndef DBPOOL_INCLUDE_MYSQL_OBJ_H_
 #define DBPOOL_INCLUDE_MYSQL_OBJ_H_
 
-#include <mysql/mysql.h>
-#include <boost/shared_ptr.hpp>
-#include <glog/logging.h>
 #include "QueryResult.h"
 #include "debug.h"
+#include "logobj.h"
+#include <mysql/mysql.h>
+#include <boost/shared_ptr.hpp>
 
 // 设置一个标志,函数参数列表当中带有OUT的就是输出引用,带有IN的就是输入参数
 #define OUT

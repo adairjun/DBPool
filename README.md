@@ -2,6 +2,8 @@
 DBPool
 ======
 
+[![Join the chat at https://gitter.im/adairjun/DBPool](https://badges.gitter.im/adairjun/DBPool.svg)](https://gitter.im/adairjun/DBPool?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 make sure there is mysql-devel, mysql-libs, boost, hiredis, gtest, theron in your system
 ======
 

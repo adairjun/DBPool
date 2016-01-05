@@ -7,7 +7,6 @@
 #define DBPOOL_INCLUDE_MYSQL_OBJ_H_
 
 #include "QueryResult.h"
-#include "debug.h"
 #include "logobj.h"
 #include <mysql/mysql.h>
 #include <boost/shared_ptr.hpp>

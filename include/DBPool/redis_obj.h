@@ -6,7 +6,6 @@
 #ifndef _REDIS_OBJ_H
 #define _REDIS_OBJ_H
 
-#include "debug.h"
 #include "logobj.h"
 #include <hiredis/hiredis.h>
 #include <string>
